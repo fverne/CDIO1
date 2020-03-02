@@ -1,4 +1,4 @@
-package controllers;
+package funktionalitet;
 
 public class controller {
 }

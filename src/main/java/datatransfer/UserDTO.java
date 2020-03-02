@@ -1,4 +1,4 @@
-package dto;
+package datatransfer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ public class UserDTO implements Serializable{
 	private int	userId;                     
 	private String userName;                
 	private String ini;                 
-	private List<String> roles;
+	private ArrayList<String> roles;
 	//TODO Add relevant fields
 	
 	public UserDTO() {
@@ -39,7 +39,7 @@ public class UserDTO implements Serializable{
 	public List<String> getRoles() {
 		return roles;
 	}
-	public void setRoles(List<String> roles) {
+	public void setRoles(ArrayList<String> roles) {
 		this.roles = roles;
 	}
 	

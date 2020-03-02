@@ -1,7 +1,7 @@
-package dal;
+package data;
 import java.util.List;
 
-import dto.UserDTO;
+import datatransfer.UserDTO;
 
 public interface IUserDAO {
 
