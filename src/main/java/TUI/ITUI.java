@@ -10,6 +10,5 @@ public interface ITUI {
     void updateUser();
     void editUser();
     void deleteUser();
-    void endProgram();
 
 }

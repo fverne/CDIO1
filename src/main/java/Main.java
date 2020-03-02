@@ -7,6 +7,8 @@ public class Main {
     public static void main(String[] args) {
         UserDAO data = new UserDAO();
         ITUI ui = new TUI(data);
-        ui.showMenu();
+        while (true) {
+            ui.showMenu();
+        }
     }
 }

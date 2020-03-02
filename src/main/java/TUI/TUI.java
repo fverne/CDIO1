@@ -23,7 +23,7 @@ public class TUI implements ITUI {
         System.out.println("5. Ret bruger");
         System.out.println("6. Afslut program");
         System.out.print("Indtast valg: ");
-
+        System.out.println();
         int userSelection = sc.nextInt();
 
         switch (userSelection) {
@@ -43,10 +43,10 @@ public class TUI implements ITUI {
                 editUser();
                 break;
             case 6:
-                endProgram();
+                System.exit(0);
                 break;
             default:
-                break;
+                showMenu();
         }
     }
 
@@ -72,11 +72,6 @@ public class TUI implements ITUI {
 
     @Override
     public void deleteUser() {
-
-    }
-
-    @Override
-    public void endProgram() {
 
     }
 }
