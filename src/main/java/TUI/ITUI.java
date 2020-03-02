@@ -4,9 +4,9 @@ import data.IUserDAO;
 
 public interface ITUI {
 
-    void showMenu() throws IUserDAO.DALException;
-    void addUser() throws IUserDAO.DALException;
-    void showUser() throws IUserDAO.DALException;
+    void showMenu();
+    void addUser();
+    void showUser();
     void updateUser();
     void editUser();
     void deleteUser();

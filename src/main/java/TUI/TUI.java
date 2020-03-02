@@ -22,6 +22,7 @@ public class TUI implements ITUI {
         System.out.println("4. Slet bruger");
         System.out.println("5. Ret bruger");
         System.out.println("6. Afslut program");
+        System.out.print("Indtast valg: ");
 
         int userSelection = sc.nextInt();
 
