@@ -14,17 +14,19 @@ public class Controller implements iController {
         Scanner sc = new Scanner(System.in);
         System.out.print("Indtast ID: ");
         String ID = sc.next();
-        newUser.setIni(ID);
+        newUser.setUserId(Integer.parseInt(ID));
+
         System.out.print("Indtast fornavn: ");
         String fornavn = sc.next();
         System.out.print("Indtast efternavn: ");
         String efternavn = sc.next();
         newUser.setUserName(fornavn + " " + efternavn);
         newUser.setIni(String.valueOf(fornavn.charAt(0) + efternavn.charAt(0)));
-        newUser.setUserId(15);
+
         System.out.print("Indtast cpr: ");
         String cpr = sc.next();
         newUser.setCpr(cpr);
+
         System.out.print("Vælg kodeord: ");
         String password = sc.next();
         newUser.setPassword(password);
@@ -42,13 +44,18 @@ public class Controller implements iController {
             FileReader fReader = new FileReader(file);
             BufferedReader fileBuff = new BufferedReader(fReader);
             while ((line = fileBuff.readLine()) != null) {
-                fileContents.add(line);
+                if (line.matches("ID: " + ID)) {
+                        fileBuff.readLine();
+
+                        System.out.println(line);
+
+                }
             }
             fileBuff.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        System.out.println(line);
+        //System.out.println(line);
     }
 
 
@@ -74,6 +81,6 @@ public class Controller implements iController {
     }
 
     public String toString(UserDTO user) {
-        return "**********************\n" + "Navn: " + user.getUserName() + "\n" + "ID: " + user.getUserId() + "\n" + "CPR: " + user.getCpr() + "\n" + "Initialer: " + user.getIni() + "\n" + "Kodeord: " + user.getPassword() + "\n**********************\n";
+        return "**********************\n" + "ID: " + user.getUserId() + "\n" + "Navn: " + user.getUserName() + "\n" + "CPR: " + user.getCpr() + "\n" + "Initialer: " + user.getIni() + "\n" + "Kodeord: " + user.getPassword() + "\n**********************\n";
     }
 }
