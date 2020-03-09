@@ -1,20 +1,28 @@
 package TUI;
 
 import data.IUserDAO;
+import data.UserDAO;
+import datatransfer.UserDTO;
+import funktionalitet.Controller;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
 
-public class TUI implements ITUI {
+public class TUI{
     Scanner sc;
     private IUserDAO data;
+    private Controller cont = new Controller();
+    UserDTO user = new UserDTO();
+
 
     public TUI(IUserDAO data) {
         this.data = data;
         sc = new Scanner(System.in);
     }
 
-    @Override
-    public void showMenu() {
+    public void showMenu() throws IOException {
         sc = new Scanner(System.in);
         System.out.println("1. Opret bruger");
         System.out.println("2. Vis brugere");
@@ -27,19 +35,21 @@ public class TUI implements ITUI {
 
         switch (userSelection) {
             case 1:
-                addUser();
+                cont.addUser();
                 break;
             case 2:
-                showUser();
+                System.out.print("Indtast ID: ");
+                String ID = sc.next();
+                cont.showUser(ID);
                 break;
             case 3:
-                updateUser();
+                //updateUser();
                 break;
             case 4:
-                deleteUser();
+                //deleteUser();
                 break;
             case 5:
-                editUser();
+                //editUser();
                 break;
             case 6:
                 System.out.println("Program afsluttes");
@@ -50,28 +60,4 @@ public class TUI implements ITUI {
         }
     }
 
-    @Override
-    public void addUser(){
-
-    }
-
-    @Override
-    public void showUser(){
-
-    }
-
-    @Override
-    public void updateUser() {
-
-    }
-
-    @Override
-    public void editUser() {
-
-    }
-
-    @Override
-    public void deleteUser() {
-
-    }
 }

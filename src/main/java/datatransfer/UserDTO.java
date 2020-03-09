@@ -7,14 +7,32 @@ import java.util.List;
 public class UserDTO implements Serializable{
 
 	private static final long serialVersionUID = 4545864587995944260L;
-	private int	userId;                     
-	private String userName;                
-	private String ini;                 
+	private int	userId = 99;
+	private String userName = "Per Hansen";
+	private String ini = "PH";
 	private ArrayList<String> roles;
+	private String password = "PerH123";
+	private String cpr = "121292-1101";
 	//TODO Add relevant fields
 	
 	public UserDTO() {
 		this.roles = new ArrayList<>();
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public String getCpr() {
+		return cpr;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setCpr(String cpr) {
+		this.cpr=cpr;
 	}
 	
 	public int getUserId() {
@@ -59,7 +77,7 @@ public class UserDTO implements Serializable{
 	public String toString() {
 		return "UserDTO [userId=" + userId + ", userName=" + userName + ", ini=" + ini + ", roles=" + roles + "]";
 	}
-	
-	
-	
+
+
+
 }
