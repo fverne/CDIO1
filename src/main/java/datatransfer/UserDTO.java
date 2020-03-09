@@ -1,22 +1,31 @@
 package datatransfer;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDTO implements Serializable{
 
 	private static final long serialVersionUID = 4545864587995944260L;
-	private int	userId = 99;
-	private String userName = "Per Hansen";
-	private String ini = "PH";
+	private int	userId;
+	private String userName;
+	private String ini;
 	private ArrayList<String> roles;
-	private String password = "PerH123";
-	private String cpr = "121292-1101";
+	private String password;
+	private String cpr;
 	//TODO Add relevant fields
 	
+	public UserDTO(int userId, String userName, String ini, ArrayList<String> roles, String password, String cpr) {
+		this.userId = userId;
+		this.userName = userName;
+		this.ini = ini;
+		this.roles = roles;
+		this.password = password;
+		this.cpr = cpr;
+	}
+
 	public UserDTO() {
-		this.roles = new ArrayList<>();
 	}
 
 	public String getPassword() {
@@ -75,7 +84,7 @@ public class UserDTO implements Serializable{
 
 	@Override
 	public String toString() {
-		return "UserDTO [userId=" + userId + ", userName=" + userName + ", ini=" + ini + ", roles=" + roles + "]";
+		return "UserDTO: [userId=" + userId + ", userName=" + userName + ", ini=" + ini + ", roles=" + roles + ", password=" + password + ", cpr=" + cpr + "]";
 	}
 
 

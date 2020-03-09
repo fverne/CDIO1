@@ -1,5 +1,6 @@
 package funktionalitet;
 
+import data.IUserDAO;
 import datatransfer.UserDTO;
 
 import java.io.File;
@@ -10,7 +11,7 @@ import java.io.UnsupportedEncodingException;
 public interface iController {
     void addUser() throws IOException;
 
-    void showUser(String ID);
+    void showUser(String ID) throws IUserDAO.DALException;
 
     void updateUser(UserDTO user);
 

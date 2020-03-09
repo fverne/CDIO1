@@ -1,9 +1,9 @@
 package funktionalitet;
 
+import data.*;
 import datatransfer.UserDTO;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Controller implements iController {
@@ -33,22 +33,10 @@ public class Controller implements iController {
         save(newUser);
     }
 
-    public void showUser(String ID) {
-        final String file = "test.txt";
-        String line = null;
-        ArrayList<String> fileContents = new ArrayList<>();
-
-        try {
-            FileReader fReader = new FileReader(file);
-            BufferedReader fileBuff = new BufferedReader(fReader);
-            while ((line = fileBuff.readLine()) != null) {
-                fileContents.add(line);
-            }
-            fileBuff.close();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        System.out.println(line);
+    public void showUser(String ID) throws IUserDAO.DALException {
+        IUserDAO userDAO = new UserDAODB();
+        int newID = Integer.parseInt(ID);
+        System.out.println(userDAO.getUser(newID).toString());
     }
 
 

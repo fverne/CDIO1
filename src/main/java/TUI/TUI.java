@@ -14,7 +14,6 @@ public class TUI{
     Scanner sc;
     private IUserDAO data;
     private Controller cont = new Controller();
-    UserDTO user = new UserDTO();
 
 
     public TUI(IUserDAO data) {
@@ -22,7 +21,7 @@ public class TUI{
         sc = new Scanner(System.in);
     }
 
-    public void showMenu() throws IOException {
+    public void showMenu() throws IOException, IUserDAO.DALException {
         sc = new Scanner(System.in);
         System.out.println("1. Opret bruger");
         System.out.println("2. Vis brugere");
