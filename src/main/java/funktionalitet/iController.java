@@ -12,9 +12,9 @@ public interface iController {
 
     void addUser() throws IOException;
 
-    void showUser(String ID) throws IUserDAO.DALException;
+    UserDTO showUser(int userId) throws IUserDAO.DALException;
 
-    void deleteUser(String ID) throws IOException;
+    void deleteUser(int userId) throws IOException;
 
-    void editUser(UserDTO user);
+    void updateUser(int userId);
 }

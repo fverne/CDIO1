@@ -10,7 +10,6 @@ public interface ITUI {
     void addUser();
     void showUser();
     void updateUser();
-    void editUser();
     void deleteUser();
 
 }

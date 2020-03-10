@@ -37,25 +37,20 @@ public class Controller implements iController {
         save(newUser);
     }
 
-    public void showUser(String ID) throws IUserDAO.DALException {
-        int newID = Integer.parseInt(ID);
-        System.out.println(this.data.getUser(newID).toString());
+    @Override
+    public UserDTO showUser(int userId) throws IUserDAO.DALException {
+        System.out.println(this.data.getUser(userId).toString());
+
+        return this.data.getUser(userId);
     }
 
     @Override
-    public void deleteUser(String ID) throws IOException {
+    public void deleteUser(int userId) {
 
     }
 
-    public void updateUser(UserDTO user) {
-
-    }
-
-    public void deleteUser(UserDTO user) {
-
-    }
-
-    public void editUser(UserDTO user) {
+    @Override
+    public void updateUser(int userId) {
 
     }
 

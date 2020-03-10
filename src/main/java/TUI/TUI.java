@@ -32,22 +32,16 @@ public class TUI implements ITUI{
 
         switch (userSelection) {
             case 1:
-                cont.addUser();
+                addUser();
                 break;
             case 2:
-                System.out.print("Indtast ID: ");
-                String ID = sc.next();
-                try {
-                    cont.showUser(ID);
-                } catch (IUserDAO.DALException e) {
-                    e.printStackTrace();
-                }
+                showUser();
                 break;
             case 3:
-                //updateUser();
+                deleteUser();
                 break;
             case 4:
-                //editUser();
+                updateUser();
                 break;
             case 5:
                 System.out.println("Program afsluttes");
@@ -60,27 +54,36 @@ public class TUI implements ITUI{
 
     @Override
     public void addUser() {
-
+        try {
+            cont.addUser();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void showUser() {
-
+        System.out.print("Indtast ID for at vise bruger: ");
+        int ID = sc.nextInt();
+        try {
+            cont.showUser(ID);
+        } catch (IUserDAO.DALException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void updateUser() {
-
-    }
-
-    @Override
-    public void editUser() {
-
+        System.out.print("Indtast ID for at opdatere bruger: ");
+        int ID = sc.nextInt();
+        cont.updateUser(ID);
     }
 
     @Override
     public void deleteUser() {
-
+        System.out.print("Indtast ID for at slette bruger: ");
+        int ID = sc.nextInt();
+        cont.deleteUser(ID);
     }
 
 }
