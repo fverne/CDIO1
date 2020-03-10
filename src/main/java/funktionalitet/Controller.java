@@ -1,85 +1,74 @@
 package funktionalitet;
 
-public class Controller {
+import data.*;
+import datatransfer.UserDTO;
 
-    public Controller(){}
+import java.io.*;
+import java.util.Scanner;
 
-    public void addUser(int userID, String userName, String initial, String cpr){
-        /*
-        Kan også lave det her til 1 if statement og rykke "indtast igen"-scenarierne ned i check-metoder
-         */
-        if(checkUserID(userID)){
-            if(checkUserName(userName)){
-                if(checkInitial(initial)){
-                    if(checkCpr(cpr)){
-                        //alt godkendt
-                        //opret kodeord
-                        //lav bruger objekt og send til data
-                    }
-                    else{
-                        //nyt cpr skal indtastes
-                    }
-                }
-                else{
-                    //nye initialer skal indtastes
-                }
-            }
-            else{
-                //nyt username
-            }
-        }
-        else{
-            //nyt userID
-        }
+public class Controller implements iController {
+    IUserDAO data;
+
+    public Controller() {
+         this.data = new UserDAODB();
     }
 
-    private boolean checkUserID(int userID){
-        /*
-        get list of ID's from data
-        run through list
-        if not used return true else return false
-         */
+    public void addUser() throws IOException {
+        UserDTO newUser = new UserDTO();
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Indtast ID: ");
+        String ID = sc.next();
+        newUser.setIni(ID);
+        System.out.print("Indtast fornavn: ");
+        String fornavn = sc.next();
+        System.out.print("Indtast efternavn: ");
+        String efternavn = sc.next();
+        newUser.setUserName(fornavn + " " + efternavn);
+        newUser.setIni(String.valueOf(fornavn.charAt(0) + efternavn.charAt(0)));
+        newUser.setUserId(15);
+        System.out.print("Indtast cpr: ");
+        String cpr = sc.next();
+        newUser.setCpr(cpr);
+        System.out.print("Vælg kodeord: ");
+        String password = sc.next();
+        newUser.setPassword(password);
+        //newUser.setRoles();
+        //saveUser(newUser);
+        save(newUser);
     }
 
-    private boolean checkUserName(String userName){
-        if(userName.length() < 2){
-            System.out.println("Username too short. Must contain 2-20 characters.");
-            return false;
-        }
-        else if(userName.length() > 20){
-            System.out.println("Username too long. Must contain 2-20 characters.");
-            return false;
-        }
-        else{
-            return true;
-        }
+    public void showUser(String ID) throws IUserDAO.DALException {
+        int newID = Integer.parseInt(ID);
+        System.out.println(this.data.getUser(newID).toString());
     }
 
-    private boolean checkInitial(String initial){
-        if(initial.length() < 2){
-            System.out.println("Initials too short. Must contain 2-4 characters.");
-            return false;
-        }
-        else if(initial.length() > 4){
-            System.out.println("Initials too long. Must contain 2-4 characters.");
-            return false;
-        }
-        else{
-            return true;
-        }
+    @Override
+    public void deleteUser(String ID) throws IOException {
+
     }
 
-    private boolean checkCpr(String cpr){
-        if(cpr.length() < 10){
-            System.out.println("CPR too short. Must contain 10 characters.");
-            return false;
-        }
-        else if(cpr.length() > 10){
-            System.out.println("CPR too long. Must contain 10 characters.");
-            return false;
-        }
-        else{
-            return true;
-        }
+    public void updateUser(UserDTO user) {
+
+    }
+
+    public void deleteUser(UserDTO user) {
+
+    }
+
+    public void editUser(UserDTO user) {
+
+    }
+
+    public void save(UserDTO user) throws IOException {
+        File file = new File("test.txt");
+        FileWriter fw = new FileWriter(file, true);
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write(toString(user));
+        bw.newLine();
+        bw.close();
+    }
+
+    public String toString(UserDTO user) {
+        return "**********************\n" + "Navn: " + user.getUserName() + "\n" + "ID: " + user.getUserId() + "\n" + "CPR: " + user.getCpr() + "\n" + "Initialer: " + user.getIni() + "\n" + "Kodeord: " + user.getPassword() + "\n**********************\n";
     }
 }
