@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Controller implements iController {
-
+    final String file = "test.txt";
 
     public void addUser() throws IOException {
         UserDTO newUser = new UserDTO();
@@ -36,36 +36,37 @@ public class Controller implements iController {
     }
 
     public void showUser(String ID) {
-        final String file = "test.txt";
-        String line = null;
+        String line;
         ArrayList<String> fileContents = new ArrayList<>();
-
+        int counter = 0;
         try {
             FileReader fReader = new FileReader(file);
             BufferedReader fileBuff = new BufferedReader(fReader);
+            fileBuff.readLine();
             while ((line = fileBuff.readLine()) != null) {
                 if (line.matches("ID: " + ID)) {
-                        fileBuff.readLine();
-
-                        System.out.println(line);
-
+                    fileContents.add(line);
+                    do {
+                        fileContents.add(fileBuff.readLine());
+                        counter++;
+                    } while (counter < 4);
                 }
             }
             fileBuff.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        //System.out.println(line);
+        System.out.println();
+        for (String fileContent : fileContents) {
+            System.out.println(fileContent);
+        }
+        System.out.println();
     }
 
-
-    public void updateUser(UserDTO user) {
-
-    }
-
-    public void deleteUser(UserDTO user) {
+    public void deleteUser(String ID) {
 
     }
+
 
     public void editUser(UserDTO user) {
 

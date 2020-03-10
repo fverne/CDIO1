@@ -12,9 +12,7 @@ public interface iController {
 
     void showUser(String ID);
 
-    void updateUser(UserDTO user);
-
-    void deleteUser(UserDTO user);
+    void deleteUser(String ID) throws IOException;
 
     void editUser(UserDTO user);
 }
