@@ -42,6 +42,10 @@ public class Controller implements iController {
         System.out.println(this.data.getUser(newID).toString());
     }
 
+    @Override
+    public void deleteUser(String ID) throws IOException {
+
+    }
 
     public void updateUser(UserDTO user) {
 
