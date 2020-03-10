@@ -1,13 +1,9 @@
 package TUI;
 
 import data.IUserDAO;
-import data.UserDAO;
-import datatransfer.UserDTO;
 import funktionalitet.Controller;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
 
 public class TUI implements ITUI{
@@ -85,5 +81,4 @@ public class TUI implements ITUI{
         int ID = sc.nextInt();
         cont.deleteUser(ID);
     }
-
 }
