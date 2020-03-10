@@ -10,18 +10,17 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
 
-public class TUI{
+public class TUI implements ITUI{
     Scanner sc;
-    private IUserDAO data;
-    private Controller cont = new Controller();
+    private Controller cont;
 
 
-    public TUI(IUserDAO data) {
-        this.data = data;
+    public TUI() {
+        this.cont = new Controller();
         sc = new Scanner(System.in);
     }
 
-    public void showMenu() throws IOException, IUserDAO.DALException {
+    public void showMenu() throws IOException {
         sc = new Scanner(System.in);
         System.out.println("1. Opret bruger");
         System.out.println("2. Vis brugere");
@@ -39,7 +38,11 @@ public class TUI{
             case 2:
                 System.out.print("Indtast ID: ");
                 String ID = sc.next();
-                cont.showUser(ID);
+                try {
+                    cont.showUser(ID);
+                } catch (IUserDAO.DALException e) {
+                    e.printStackTrace();
+                }
                 break;
             case 3:
                 //updateUser();
@@ -57,6 +60,31 @@ public class TUI{
             default:
                 showMenu();
         }
+    }
+
+    @Override
+    public void addUser() {
+
+    }
+
+    @Override
+    public void showUser() {
+
+    }
+
+    @Override
+    public void updateUser() {
+
+    }
+
+    @Override
+    public void editUser() {
+
+    }
+
+    @Override
+    public void deleteUser() {
+
     }
 
 }

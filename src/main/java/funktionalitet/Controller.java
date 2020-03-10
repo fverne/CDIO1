@@ -7,7 +7,11 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Controller implements iController {
+    IUserDAO data;
 
+    public Controller() {
+         this.data = new UserDAODB();
+    }
 
     public void addUser() throws IOException {
         UserDTO newUser = new UserDTO();
@@ -34,9 +38,8 @@ public class Controller implements iController {
     }
 
     public void showUser(String ID) throws IUserDAO.DALException {
-        IUserDAO userDAO = new UserDAODB();
         int newID = Integer.parseInt(ID);
-        System.out.println(userDAO.getUser(newID).toString());
+        System.out.println(this.data.getUser(newID).toString());
     }
 
 
