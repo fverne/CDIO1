@@ -56,21 +56,21 @@ public class UserDAODB implements IUserDAO {
             int valueLength;
 
             //Find maximun width for each column and store in columnWidths[]
-            for (int i = 1;i <= columnCount; i++) {
-                columnWidths[i] = resultSetMetaData.getColumnName(i).length();
-            }
-            while (resultSet.next()) {
-                for (int i = 1; i <= columnCount; i++) {
-                    valueLength = resultSet.getString(i).length();
-                    if (valueLength > columnWidths[i]) {columnWidths[i] = valueLength;}
-                }
-            }
+//            for (int i = 1;i <= columnCount; i++) {
+//                columnWidths[i] = resultSetMetaData.getColumnName(i).length();
+//            }
+//            while (resultSet.next()) {
+//                for (int i = 1; i <= columnCount; i++) {
+//                    valueLength = resultSet.getString(i).length();
+//                    if (valueLength > columnWidths[i]) {columnWidths[i] = valueLength;}
+//                }
+//            }
 
             //Print all attribute names
 //            for (int i = 1; i <= columnCount; i++) {
 //                System.out.print(rightPad(resultSetMetaData.getColumnName(i), columnWidths[i]));
 //            }
-             // DEBUG // System.out.println();
+//              DEBUG // System.out.println();
 
             //Print all table rows
             resultSet.beforeFirst(); //Set pointer for resultSet.next()
@@ -104,7 +104,7 @@ public class UserDAODB implements IUserDAO {
 
         } catch (Exception e) {
             e.printStackTrace();
-            throw new DALException("Something went wrong with getuser");
+            throw new DALException("Something went wrong with getUser()");
         }
 
         return userDTO;
