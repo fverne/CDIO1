@@ -1,26 +1,16 @@
-
-
 **********************
-Navn: mads mads
-ID: 15
-CPR: 321
-Initialer: 218
-Kodeord: 123
+ID: 1
+Navn: dasds dssdaads
+CPR: dsaasasd
+Initialer: 200
+Kodeord: dassd
 **********************
 
 **********************
-Navn: per olsen
-ID: 15
-CPR: 123
-Initialer: 223
-Kodeord: 321
-**********************
-
-**********************
-Navn: jonas olsen
-ID: 15
-CPR: 31232
-Initialer: 217
-Kodeord: 213232
+ID: 14
+Navn: dsa asddasds
+CPR: dasds
+Initialer: 197
+Kodeord: dasds
 **********************
 

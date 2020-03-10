@@ -23,11 +23,10 @@ public class TUI implements ITUI{
     public void showMenu() throws IOException {
         sc = new Scanner(System.in);
         System.out.println("1. Opret bruger");
-        System.out.println("2. Vis brugere");
-        System.out.println("3. Opdater brugere");
-        System.out.println("4. Slet bruger");
-        System.out.println("5. Ret bruger");
-        System.out.println("6. Afslut program");
+        System.out.println("2. Vis bruger");
+        System.out.println("3. Slet bruger");
+        System.out.println("4. Ret bruger");
+        System.out.println("5. Afslut program");
         System.out.print("Indtast valg: ");
         int userSelection = sc.nextInt();
 
@@ -48,12 +47,9 @@ public class TUI implements ITUI{
                 //updateUser();
                 break;
             case 4:
-                //deleteUser();
-                break;
-            case 5:
                 //editUser();
                 break;
-            case 6:
+            case 5:
                 System.out.println("Program afsluttes");
                 System.exit(0);
                 break;
