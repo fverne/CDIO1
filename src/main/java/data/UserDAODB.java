@@ -52,8 +52,8 @@ public class UserDAODB implements IUserDAO {
             ResultSet resultSet = statement.executeQuery(sqlQuery);
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
             int columnCount = resultSetMetaData.getColumnCount();
-            int[] columnWidths = new int[columnCount+1]; //columnWidths[0] to be ignored
-            int valueLength;
+//            int[] columnWidths = new int[columnCount+1]; //columnWidths[0] to be ignored
+//            int valueLength;
 
             //Find maximun width for each column and store in columnWidths[]
 //            for (int i = 1;i <= columnCount; i++) {
@@ -111,8 +111,34 @@ public class UserDAODB implements IUserDAO {
     }
 
     @Override
-    public List<UserDTO> getUserList() throws DALException {
-        return null;
+    public ArrayList<UserDTO> getUserList() throws DALException {
+        ArrayList<UserDTO> multipleDTOArray = new ArrayList<>();
+
+        try {
+            Class.forName(driver);
+            String sqlQuery;
+
+            System.out.println("Querying SQL...");
+            //A query statement like "SELECT * FROM instructor;" or "SHOW TABLES;"
+            sqlQuery = "SELECT * FROM users";
+
+            Connection connection = DriverManager.getConnection(this.url, username, password);
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sqlQuery);
+
+            int useriterator = 0;
+            resultSet.beforeFirst(); //Set pointer for resultSet.next()
+            while (resultSet.next()) {
+                useriterator = useriterator + 1;
+                multipleDTOArray.add(getUser(useriterator));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DALException("Something went wrong with getUserList()");
+        }
+
+
+        return multipleDTOArray;
     }
 
     @Override
