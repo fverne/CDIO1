@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class Controller implements iController {
     IUserDAO data;
 
-    public Controller() throws IUserDAO.DALException {
+    public Controller() {
         //only run one of these at a time!
         //this.data = new UserDAO(new Codegenerator());
         this.data = new UserDAODISK();
@@ -33,47 +33,61 @@ public class Controller implements iController {
 
     @Override
     public void updateUser(int userId) throws IUserDAO.DALException {
-        //lav objekt ud fra userID og send til userDAO
         Scanner sc = new Scanner(System.in);
-        TUI.displayText("Indtast fornavn: ");
-        String firstName = sc.next();
-        TUI.displayText("Indtast efternavn: ");
-        String lastName = sc.next();
-        TUI.displayText("Indtast cpr nr: ");
-        String cpr = sc.next();
-        String userName = firstName+" "+lastName;
-        String ini = String.valueOf(firstName.charAt(0)+lastName.charAt(0));
+        String userName = "";
+        String cpr;
+        String password;
+        String ini;
+        do {
+            String firstName = getNewName(sc, "Indtast fornavn: ");
+            String lastName = getNewLastname(sc, "Indtast efternavn: ");
+            userName = firstName + " " + lastName;
+            ini = String.valueOf(firstName.charAt(0) + lastName.charAt(0));
+        } while (checkUserName(userName));
+
+        do {
+            cpr = getNewCPR(sc, "Indtast cpr nr: ");
+        } while (checkCPR(cpr));
+
         ArrayList<String> roles = new ArrayList<>();
-        TUI.displayText("Vælg roller\n1. Pharma\n2.dsadsa,\n3.dsadsa,\n4.dasdsa");
-        int userSelection = sc.nextInt();
-        switch (userSelection){
-            case 1:
-                roles.add("Pharma");
+        TUI.displayText("Indtast enkeltvist roller. (max 4) Afslut med \"end\". \n" +
+                "Mulige roller: Admin, Pharmacist, Foreman, Operator");
+        for (int i = 0; i < 4; i++) {
+            roles.add(sc.nextLine());
+            if (roles.get(i).equals("end")) {
+                roles.remove(i);
                 break;
-            case 2:
-                roles.add("nr2");
-                break;
-            case 3:
-                roles.add("nr3");
-                break;
-            case 4:
-                roles.add("nr 4");
-                break;
+            }
         }
-        TUI.displayText("Indtast kodeord: ");
-        String password = sc.next();
-        UserDTO user = new UserDTO(userId, userName,ini,roles,password,cpr);
+        password = getNewPassword(sc);
+        UserDTO user = new UserDTO(userId, userName, ini, roles, password, cpr);
         this.data.updateUser(user);
     }
 
+    private String getNewPassword(Scanner sc) {
+        TUI.displayText("Indtast nyt kodeord: ");
+        return sc.next();
+    }
 
+    private String getNewCPR(Scanner sc, String s) {
+        TUI.displayText(s);
+        return sc.next();
+    }
 
-    //virker
+    private String getNewLastname(Scanner sc, String s) {
+        TUI.displayText(s);
+        return sc.next();
+    }
+
+    private String getNewName(Scanner sc, String s) {
+        TUI.displayText(s);
+        return sc.next();
+    }
+
     public void createUser(UserDTO user) throws IUserDAO.DALException {
         this.data.createUser(user);
     }
 
-    //virker
     @Override
     public List<UserDTO> getUserList() throws IUserDAO.DALException {
         return data.getUserList();
@@ -96,7 +110,6 @@ public class Controller implements iController {
             }
             return true; //ID is good
         }
-
     }
 
     public boolean checkCPR(String cpr) {
