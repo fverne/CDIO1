@@ -1,1 +1,0 @@
-[userId=0, userName=dsadsdassda dsadasadsdsa, ini=200, roles=null, password=null, cpr=dasdsasd]

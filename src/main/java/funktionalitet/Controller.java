@@ -1,17 +1,16 @@
 package funktionalitet;
 
-import data.*;
+import data.IUserDAO;
+import data.UserDAODISK;
 import datatransfer.UserDTO;
 
-import java.io.*;
 import java.util.List;
-import java.util.Scanner;
 
 public class Controller implements iController {
     IUserDAO data;
 
-    public Controller() {
-        this.data = new UserDAOTXT();
+    public Controller() throws IUserDAO.DALException {
+        this.data = new UserDAODISK();
     }
 
     public void createUser(UserDTO user) throws IUserDAO.DALException {
@@ -31,11 +30,5 @@ public class Controller implements iController {
     @Override
     public void deleteUser(int userId) throws IUserDAO.DALException {
         this.data.getUser(userId).deleteUser();
-    }
-
-
-    @Override
-    public void updateUser(int userId) throws IUserDAO.DALException {
-        this.data.updateUser(data.getUser(userId));
     }
 }

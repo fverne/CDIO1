@@ -11,7 +11,8 @@ public class TUI implements ITUI {
     private Controller cont;
     UserDTO user;
 
-    public TUI() {
+
+    public TUI() throws IUserDAO.DALException {
         this.cont = new Controller();
         sc = new Scanner(System.in);
     }
@@ -60,26 +61,29 @@ public class TUI implements ITUI {
     @Override
     public void showUser() {
         System.out.print("Indtast ID for at vise bruger: ");
-        int ID = sc.nextInt();
-        try {
-            System.out.println(cont.getUser(ID).toString());
-        } catch (IUserDAO.DALException e) {
-            e.printStackTrace();
-        }
+//        int ID = sc.nextInt();
+//        try {
+//            cont.getUser(ID);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
+
 
     @Override
     public void updateUser() throws IUserDAO.DALException {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Indtast ID for at opdatere bruger: ");
-        int ID = sc.nextInt();
-        cont.updateUser(ID);
+        System.out.println("Ikke implementeret");
+//        Scanner sc = new Scanner(System.in);
+//        System.out.print("Indtast ID for at opdatere bruger: ");
+//        int ID = sc.nextInt();
+//        cont.updateUser(ID);
     }
 
     @Override
     public void deleteUser() throws IUserDAO.DALException {
-        System.out.print("Indtast ID for at slette bruger: ");
-        int ID = sc.nextInt();
-        cont.deleteUser(ID);
+        System.out.println("Ikke implementeret");
+//        System.out.print("Indtast ID for at slette bruger: ");
+//        int ID = sc.nextInt();
+//        cont.deleteUser(ID);
     }
 }
