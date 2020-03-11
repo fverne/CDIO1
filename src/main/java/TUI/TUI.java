@@ -55,7 +55,7 @@ public class TUI implements ITUI {
     }
 
     @Override
-    public void createUser() {
+    public void createUser() throws IUserDAO.DALException {
         Scanner sc = new Scanner(System.in);
         String userName;
         String userIni = "";
@@ -73,11 +73,11 @@ public class TUI implements ITUI {
         String fornavn = sc.nextLine();
         displayText("Indtast efternavn: ");
         String efternavn = sc.nextLine();
+        userName = fornavn + " " + efternavn;
         while(!cont.checkUserName(userName)){
             displayText("Ugyldigt brugernavn. Skal være mellem 2 - 20 karakterer. Indtast nyt brugernavn.");
             userName = sc.nextLine();
         }
-        userName = fornavn + " " + efternavn;
         displayText("Brugernavn er: "+ userName);
         userIni += fornavn.charAt(0) + efternavn.charAt(0);
         displayText("Initiale er: " + userIni);
@@ -130,7 +130,7 @@ public class TUI implements ITUI {
         displayText("Indtast ID for at vise bruger: ");
         int ID = sc.nextInt();
         try {
-            displayText(cont.getUser(ID));
+            displayObject(cont.getUser(ID));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -153,7 +153,7 @@ public class TUI implements ITUI {
 
     public void showUserList() throws IUserDAO.DALException {
         for (int i = 0; i < cont.getUserList().size(); i++) {
-            printObject(cont.getUserList().get(i));
+            displayObject(cont.getUserList().get(i));
         }
     }
 
@@ -162,7 +162,7 @@ public class TUI implements ITUI {
     }
 
 
-    public static void printObject(UserDTO user) {
+    public static void displayObject(UserDTO user) {
         System.out.println(user);
     }
 }

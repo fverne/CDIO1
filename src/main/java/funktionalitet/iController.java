@@ -14,7 +14,7 @@ public interface iController {
 
     List<UserDTO> getUserList() throws IUserDAO.DALException;
 
-    void deleteUser(int userId) throws IUserDAO.DALException;
+    void deleteUser(int userId) throws IOException, IUserDAO.DALException;
 
     void updateUser(int userId) throws IUserDAO.DALException;
 }

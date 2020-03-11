@@ -1,10 +1,9 @@
 package funktionalitet;
 
-import codegenerator.Codegenerator;
 import TUI.TUI;
+import codegenerator.Codegenerator;
 import data.IUserDAO;
-import data.UserDAO;
-import data.UserDAODISK;
+import data.UserDAODB;
 import datatransfer.UserDTO;
 
 import java.util.ArrayList;
@@ -109,6 +108,7 @@ public class Controller implements iController {
             }
             return true; //ID is good
         }
+
     }
 
     public boolean checkCPR(String cpr){
