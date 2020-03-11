@@ -12,6 +12,8 @@ public class Controller implements iController {
     IUserDAO data;
 
     public Controller() {
+        //only 1 at a time!
+        this.data = new UserDAO(new Codegenerator());
         this.data = new UserDAOTXT();
     }
 
