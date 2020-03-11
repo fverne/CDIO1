@@ -32,8 +32,11 @@ public class Controller implements iController {
 
     @Override
     public void deleteUser(int userId) throws IUserDAO.DALException {
-        int index = userId - 10;
-        this.data.deleteUser(index);
+        for (int i = 0; i < this.data.getUserList().size(); i++) {
+            if (this.data.getUserList().get(i).getUserId() == userId) {
+                //virker ikke
+            }
+        }
     }
 
     @Override
