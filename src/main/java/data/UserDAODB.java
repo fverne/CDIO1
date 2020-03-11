@@ -1,7 +1,6 @@
 package data;
 
 import datatransfer.UserDTO;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -147,14 +146,13 @@ public class UserDAODB implements IUserDAO {
 
     }
 
-
     @Override
-    public void deleteUser(int userId) throws DALException {
+    public void updateUser(UserDTO user) throws DALException {
 
     }
 
     @Override
-    public void updateUser(UserDTO user) throws DALException {
+    public void deleteUser(int userId) throws DALException {
 
     }
 }
