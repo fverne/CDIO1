@@ -7,6 +7,10 @@ import java.io.IOException;
 
 public interface iController {
 
+
+
+
+
     void addUser(UserDTO user) throws IUserDAO.DALException;
 
     UserDTO showUser(int userId) throws IUserDAO.DALException;
