@@ -4,6 +4,7 @@ import data.*;
 import datatransfer.UserDTO;
 
 import java.io.*;
+import java.util.List;
 import java.util.Scanner;
 
 public class Controller implements iController {
@@ -13,15 +14,18 @@ public class Controller implements iController {
         this.data = new UserDAOTXT();
     }
 
-    public void addUser(UserDTO user) throws IUserDAO.DALException {
+    public void createUser(UserDTO user) throws IUserDAO.DALException {
         this.data.createUser(user);
     }
 
+    @Override
+    public UserDTO getUser(int userId) throws IUserDAO.DALException {
+        return this.data.getUser(userId);
+    }
 
     @Override
-    public UserDTO showUser(int userId) throws IUserDAO.DALException {
-        System.out.println(this.data.getUser(userId).toString());
-        return this.data.getUser(userId);
+    public List<UserDTO> getUserList() {
+        return null;
     }
 
     @Override

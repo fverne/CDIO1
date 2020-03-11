@@ -4,14 +4,12 @@ import data.IUserDAO;
 import datatransfer.UserDTO;
 import funktionalitet.Controller;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class TUI implements ITUI {
     Scanner sc;
     private Controller cont;
     UserDTO user;
-
 
     public TUI() {
         this.cont = new Controller();
@@ -53,7 +51,7 @@ public class TUI implements ITUI {
     @Override
     public void addUser() {
         try {
-            cont.addUser(user = new UserDTO());
+            cont.createUser(user = new UserDTO());
         } catch (IUserDAO.DALException e) {
             e.printStackTrace();
         }
@@ -64,7 +62,7 @@ public class TUI implements ITUI {
         System.out.print("Indtast ID for at vise bruger: ");
         int ID = sc.nextInt();
         try {
-            cont.showUser(ID);
+            System.out.println(cont.getUser(ID).toString());
         } catch (IUserDAO.DALException e) {
             e.printStackTrace();
         }

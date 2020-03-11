@@ -28,6 +28,7 @@ public class UserDTO implements Serializable{
 	public UserDTO() {
 	}
 
+
 	public String getPassword() {
 		return password;
 	}
@@ -83,7 +84,7 @@ public class UserDTO implements Serializable{
 	}
 
 	public void deleteUser() {
-		this.userId = Integer.parseInt(null);
+		this.userId = 9999;
 		this.userName = null;
 		this.ini = null;
 		this.roles = null;
@@ -93,7 +94,7 @@ public class UserDTO implements Serializable{
 
 	@Override
 	public String toString() {
-		return "UserDTO: [userId=" + userId + ", userName=" + userName + ", ini=" + ini + ", roles=" + roles + ", password=" + password + ", cpr=" + cpr + "]";
+		return "[userId=" + userId + ", userName=" + userName + ", ini=" + ini + ", roles=" + roles + ", password=" + password + ", cpr=" + cpr + "]";
 	}
 
 
