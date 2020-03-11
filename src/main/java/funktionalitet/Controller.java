@@ -2,6 +2,7 @@ package funktionalitet;
 
 import codegenerator.Codegenerator;
 import data.IUserDAO;
+import data.UserDAO;
 import data.UserDAODISK;
 import datatransfer.UserDTO;
 
@@ -12,7 +13,10 @@ public class Controller implements iController {
     IUserDAO data;
 
     public Controller() throws IUserDAO.DALException {
-        this.data = new UserDAODISK();
+        //only run one of these at a time!
+        this.data = new UserDAO(new Codegenerator());
+        //this.data = new UserDAODISK();
+        //this.data = newUsaDAODB();
     }
 
     public void createUser(UserDTO user) throws IUserDAO.DALException {
@@ -31,7 +35,7 @@ public class Controller implements iController {
 
     @Override
     public void deleteUser(int userId) throws IUserDAO.DALException {
-        this.data.getUser(userId).deleteUser();
+        this.data.deleteUser(userId);
     }
 
     @Override

@@ -54,7 +54,7 @@ public class TUI implements ITUI {
     public void createUser() throws IUserDAO.DALException {
         Scanner sc = new Scanner(System.in);
         String userName;
-        String userIni;
+        String userIni = "";
         int userId;
         //INPUT ID AND CHECK
         System.out.println("Indtast unikt brugerID (integer i interval 11-99");
@@ -71,7 +71,7 @@ public class TUI implements ITUI {
         String efternavn = sc.nextLine();
         userName = fornavn + " " + efternavn;
         System.out.println("Brugernavn er: "+ userName);
-        userIni = String.valueOf(fornavn.charAt(0) + efternavn.charAt(0));
+        userIni += fornavn.charAt(0) + efternavn.charAt(0);
         while(!cont.checkUserName(userName)){
             System.out.println("Ugyldigt brugernavn. Skal være mellem 2 - 20 karakterer. Indtast nyt brugernavn.");
             userName = sc.nextLine();

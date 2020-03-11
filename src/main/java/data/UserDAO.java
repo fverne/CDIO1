@@ -56,6 +56,7 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public void updateUser(UserDTO user) throws DALException {
+
         //updating a user should be possible by ".getUser.setX(y)"
     }
 
