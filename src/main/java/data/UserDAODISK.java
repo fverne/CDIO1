@@ -8,7 +8,6 @@ import java.util.List;
 
 public class UserDAODISK implements IUserDAO {
     private List<UserDTO> userList;
-    UserDTO test;
 
     public UserDAODISK() throws DALException {
         userList = new ArrayList<>();
@@ -60,14 +59,14 @@ public class UserDAODISK implements IUserDAO {
         }
     }
 
-
     @Override
     public void deleteUser(int userId) throws DALException {
-
+        userList.remove(userId);
+        saveUsersToDisk(userList);
     }
 
     @Override
     public void updateUser(UserDTO user) throws DALException {
-
+        //
     }
 }
