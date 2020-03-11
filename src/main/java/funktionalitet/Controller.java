@@ -1,5 +1,6 @@
 package funktionalitet;
 
+import codegenerator.Codegenerator;
 import data.*;
 import datatransfer.UserDTO;
 
@@ -8,10 +9,13 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Controller implements iController {
+
     IUserDAO data;
 
     public Controller() {
-        this.data = new UserDAOTXT();
+        //only 1 data implementation at a time
+        this.data = new UserDAO(new Codegenerator());//no save. Initializing 4 hardcoded users on creation.
+        this.data = new UserDAOTXT();// read/write to txt file on disk
     }
 
     public void createUser(UserDTO user) throws IUserDAO.DALException {
