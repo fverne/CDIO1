@@ -5,10 +5,7 @@ import datatransfer.UserDTO;
 
 import java.io.IOException;
 
-public interface iController {
-
-
-
+interface iController {
 
 
     void addUser(UserDTO user) throws IUserDAO.DALException;
