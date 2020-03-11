@@ -4,14 +4,17 @@ import data.IUserDAO;
 import datatransfer.UserDTO;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface iController {
 
-    void addUser() throws IOException;
+    void createUser(UserDTO user) throws IUserDAO.DALException;
 
-    UserDTO showUser(int userId) throws IUserDAO.DALException;
+    UserDTO getUser(int userId) throws IUserDAO.DALException;
 
-    void deleteUser(int userId) throws IOException;
+    List<UserDTO> getUserList();
+
+    void deleteUser(int userId) throws IUserDAO.DALException;
 
     void updateUser(int userId);
 }

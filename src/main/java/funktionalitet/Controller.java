@@ -31,4 +31,9 @@ public class Controller implements iController {
     public void deleteUser(int userId) throws IUserDAO.DALException {
         this.data.getUser(userId).deleteUser();
     }
+
+    @Override
+    public void updateUser(int userId) {
+
+    }
 }
