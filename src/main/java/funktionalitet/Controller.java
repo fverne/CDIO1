@@ -23,8 +23,8 @@ public class Controller implements iController {
     }
 
     @Override
-    public List<UserDTO> getUserList() {
-        return null;
+    public List<UserDTO> getUserList() throws IUserDAO.DALException {
+       return data.getUserList();
     }
 
     @Override

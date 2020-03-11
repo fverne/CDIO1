@@ -13,7 +13,7 @@ interface iController {
 
     UserDTO getUser(int userId) throws IUserDAO.DALException;
 
-    List<UserDTO> getUserList();
+    List<UserDTO> getUserList() throws IUserDAO.DALException;
 
     void deleteUser(int userId) throws IOException, IUserDAO.DALException;
 

@@ -22,9 +22,10 @@ public class TUI implements ITUI {
         sc = new Scanner(System.in);
         System.out.println("1. Opret bruger");
         System.out.println("2. Vis bruger");
-        System.out.println("3. Slet bruger");
-        System.out.println("4. Ret bruger");
-        System.out.println("5. Afslut program");
+        System.out.println("3. Vis alle brugere");
+        System.out.println("4. Slet bruger");
+        System.out.println("5. Ret bruger");
+        System.out.println("6. Afslut program");
         System.out.print("Indtast valg: ");
         int userSelection = sc.nextInt();
 
@@ -36,12 +37,15 @@ public class TUI implements ITUI {
                 showUser();
                 break;
             case 3:
-                deleteUser();
+                showUserList();
                 break;
             case 4:
-                updateUser();
+                deleteUser();
                 break;
             case 5:
+                updateUser();
+                break;
+            case 6:
                 System.out.println("Program afsluttes");
                 System.exit(0);
                 break;
@@ -88,18 +92,50 @@ public class TUI implements ITUI {
 
     @Override
     public void updateUser() throws IUserDAO.DALException {
-        System.out.println("Ikke implementeret");
-//        Scanner sc = new Scanner(System.in);
-//        System.out.print("Indtast ID for at opdatere bruger: ");
-//        int ID = sc.nextInt();
-//        cont.updateUser(ID);
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Indtast bruger ID");
+        int id = sc.nextInt();
+        System.out.println("Hvilke informationer vil du redigerer: ");
+        System.out.println("1. Navn");
+        System.out.println("2. CPR");
+        System.out.println("3. Roller");
+        System.out.println("4. Password");
+        int userSelection = sc.nextInt();
+        switch (userSelection) {
+            case 1:
+                System.out.println("Indtast nyt navn: ");
+                String newName = sc.next();
+                cont.getUser(id).setUserName(newName);
+                break;
+            case 2:
+                System.out.println("Indtast nyt CPR: ");
+                String cpr = sc.next();
+                cont.getUser(id).setCpr(cpr);
+                break;
+
+            case 3:
+//                System.out.println("Indtast ny rolle: ");
+//                String rolle = sc.next();
+//                cont.getUser(id).setRoles(rolle);
+                break;
+
+            case 4:
+                System.out.println("Indtast nyt password ");
+                String password = sc.next();
+                cont.getUser(id).setUserName(password);
+                break;
+        }
+        sc.close();
     }
 
     @Override
     public void deleteUser() throws IUserDAO.DALException {
-        System.out.println("Ikke implementeret");
-//        System.out.print("Indtast ID for at slette bruger: ");
-//        int ID = sc.nextInt();
-//        cont.deleteUser(ID);
+        System.out.print("Indtast ID for at slette bruger: ");
+        int ID = sc.nextInt();
+        cont.getUser(ID).deleteUser();
+    }
+
+    public void showUserList() throws IUserDAO.DALException {
+        System.out.println(cont.getUserList());
     }
 }
