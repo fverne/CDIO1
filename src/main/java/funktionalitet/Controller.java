@@ -15,7 +15,7 @@ public class Controller implements iController {
     public Controller() {
         //only 1 data implementation at a time
         this.data = new UserDAO(new Codegenerator());//no save. Initializing 4 hardcoded users on creation.
-        this.data = new UserDAOTXT();// read/write to txt file on disk
+       // this.data = new UserDAOTXT();// read/write to txt file on disk
     }
 
     public void createUser(UserDTO user) throws IUserDAO.DALException {
