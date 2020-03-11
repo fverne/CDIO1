@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 public class UserDAODISK implements IUserDAO {
     private List<UserDTO> userList;
 
-
     public UserDAODISK() {
         userList = new ArrayList<>();
         File tempFile = new File("UserDTO.dat");

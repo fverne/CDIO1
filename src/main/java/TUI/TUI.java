@@ -8,14 +8,21 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TUI implements ITUI {
-    Scanner sc;
+    private Scanner sc;
     private Controller cont;
-    UserDTO user;
 
 
-    public TUI() throws IUserDAO.DALException {
+    public TUI() {
         this.cont = new Controller();
         sc = new Scanner(System.in);
+    }
+
+    public static void displayText(String str) {
+        System.out.println(str);
+    }
+
+    public static void displayObject(UserDTO user) {
+        System.out.println(user);
     }
 
     public void showMenu() throws IUserDAO.DALException {
@@ -63,7 +70,7 @@ public class TUI implements ITUI {
         //INPUT ID AND CHECK
         displayText("Indtast unikt brugerID (integer i interval 11-99");
         userId = Integer.parseInt(sc.nextLine());
-        while(!cont.checkID(userId)){
+        while (!cont.checkID(userId)) {
             displayText("Ugyldigt brugerID. Indtast nyt brugerID");
             userId = Integer.parseInt(sc.nextLine());
         }
@@ -74,12 +81,12 @@ public class TUI implements ITUI {
         displayText("Indtast efternavn: ");
         String efternavn = sc.nextLine();
         userName = fornavn + " " + efternavn;
-        while(!cont.checkUserName(userName)){
+        while (!cont.checkUserName(userName)) {
             displayText("Ugyldigt brugernavn. Skal være mellem 2 - 20 karakterer. Indtast nyt brugernavn.");
             userName = sc.nextLine();
         }
-        displayText("Brugernavn er: "+ userName);
-        userIni += fornavn.charAt(0) + efternavn.charAt(0);
+        displayText("Brugernavn er: " + userName);
+        userIni += String.valueOf(fornavn.charAt(0) + efternavn.charAt(0));
         displayText("Initiale er: " + userIni);
         //behøver ikke check, når initialer autogenereres til 2 bogstaver
 
@@ -94,7 +101,7 @@ public class TUI implements ITUI {
                 break;
             }
         }
-        while(!cont.checkRoles(roles)){
+        while (!cont.checkRoles(roles)) {
             displayText("En eller flere roller er ugyldige. Indtast dem igen ");
             roles.clear();
             for (int i = 0; i < 4; i++) {
@@ -112,7 +119,7 @@ public class TUI implements ITUI {
         //INPUT CPR AND CHECK
         displayText("Indtast cpr: ");
         String cpr = sc.next();
-        while(!cont.checkCPR(cpr)){
+        while (!cont.checkCPR(cpr)) {
             displayText("Ugyldigt cpr. Indtast igen. Skal være 10 cifre. Ingen bogstaver");
             cpr = sc.nextLine();
         }
@@ -136,7 +143,6 @@ public class TUI implements ITUI {
         }
     }
 
-
     @Override
     public void updateUser() throws IUserDAO.DALException {
         displayText("Indtast bruger ID");
@@ -155,14 +161,5 @@ public class TUI implements ITUI {
         for (int i = 0; i < cont.getUserList().size(); i++) {
             displayObject(cont.getUserList().get(i));
         }
-    }
-
-    public static void displayText(String str) {
-        System.out.println(str);
-    }
-
-
-    public static void displayObject(UserDTO user) {
-        System.out.println(user);
     }
 }
