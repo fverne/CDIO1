@@ -59,11 +59,13 @@ public class TUI implements ITUI {
         Scanner sc = new Scanner(System.in);
         String userName;
         String userIni;
-        int userId = 1;
+        int userId;
         System.out.print("Indtast fornavn: ");
         String fornavn = sc.next();
         System.out.print("Indtast efternavn: ");
         String efternavn = sc.next();
+        System.out.println("Indtast ønskede bruger ID(10-99): ");
+        userId = sc.nextInt();
 
         userIni = String.valueOf(fornavn.charAt(0) + efternavn.charAt(0));
         userName = fornavn + " " + efternavn;
