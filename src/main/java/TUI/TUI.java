@@ -158,8 +158,12 @@ public class TUI implements ITUI {
     }
 
     public void showUserList() throws IUserDAO.DALException {
+        if (cont.getUserList().size() == 0) {
+            TUI.displayText("Listen er tom.");
+        }
         for (int i = 0; i < cont.getUserList().size(); i++) {
             displayObject(cont.getUserList().get(i));
+
         }
     }
 }
