@@ -1,69 +1,34 @@
 package funktionalitet;
 
-import data.*;
+import data.IUserDAO;
+import data.UserDAODISK;
 import datatransfer.UserDTO;
 
-import java.io.*;
-import java.util.Scanner;
+import java.util.List;
 
 public class Controller implements iController {
     IUserDAO data;
 
-    public Controller() {
-         this.data = new UserDAODB();
+    public Controller() throws IUserDAO.DALException {
+        this.data = new UserDAODISK();
     }
 
-    public void addUser() throws IOException {
-        UserDTO newUser = new UserDTO();
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Indtast ID: ");
-        String ID = sc.next();
-        newUser.setIni(ID);
-        System.out.print("Indtast fornavn: ");
-        String fornavn = sc.next();
-        System.out.print("Indtast efternavn: ");
-        String efternavn = sc.next();
-        newUser.setUserName(fornavn + " " + efternavn);
-        newUser.setIni(String.valueOf(fornavn.charAt(0) + efternavn.charAt(0)));
-        newUser.setUserId(15);
-        System.out.print("Indtast cpr: ");
-        String cpr = sc.next();
-        newUser.setCpr(cpr);
-        System.out.print("Vælg kodeord: ");
-        String password = sc.next();
-        newUser.setPassword(password);
-        //newUser.setRoles();
-        //saveUser(newUser);
-        save(newUser);
+    public void createUser(UserDTO user) throws IUserDAO.DALException {
+        this.data.createUser(user);
     }
 
     @Override
-    public UserDTO showUser(int userId) throws IUserDAO.DALException {
-        System.out.println(this.data.getUser(userId).toString());
-
+    public UserDTO getUser(int userId) throws IUserDAO.DALException {
         return this.data.getUser(userId);
     }
 
     @Override
-    public void deleteUser(int userId) {
-
+    public List<UserDTO> getUserList() {
+        return null;
     }
 
     @Override
-    public void updateUser(int userId) {
-
-    }
-
-    public void save(UserDTO user) throws IOException {
-        File file = new File("test.txt");
-        FileWriter fw = new FileWriter(file, true);
-        BufferedWriter bw = new BufferedWriter(fw);
-        bw.write(toString(user));
-        bw.newLine();
-        bw.close();
-    }
-
-    public String toString(UserDTO user) {
-        return "**********************\n" + "Navn: " + user.getUserName() + "\n" + "ID: " + user.getUserId() + "\n" + "CPR: " + user.getCpr() + "\n" + "Initialer: " + user.getIni() + "\n" + "Kodeord: " + user.getPassword() + "\n**********************\n";
+    public void deleteUser(int userId) throws IUserDAO.DALException {
+        this.data.getUser(userId).deleteUser();
     }
 }
