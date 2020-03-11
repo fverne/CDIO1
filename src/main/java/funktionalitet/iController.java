@@ -17,4 +17,6 @@ interface iController {
 
     void deleteUser(int userId) throws IOException, IUserDAO.DALException;
 
+    void updateUser(int userId) throws IUserDAO.DALException;
+
 }

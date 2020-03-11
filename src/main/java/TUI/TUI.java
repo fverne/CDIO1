@@ -12,7 +12,6 @@ public class TUI implements ITUI {
     private Controller cont;
     UserDTO user;
 
-
     public TUI() throws IUserDAO.DALException {
         this.cont = new Controller();
         sc = new Scanner(System.in);
@@ -20,13 +19,13 @@ public class TUI implements ITUI {
 
     public void showMenu() throws IUserDAO.DALException {
         sc = new Scanner(System.in);
-        System.out.println("1. Opret bruger");
-        System.out.println("2. Vis bruger");
-        System.out.println("3. Vis alle brugere");
-        System.out.println("4. Slet bruger");
-        System.out.println("5. Ret bruger");
-        System.out.println("6. Afslut program");
-        System.out.print("Indtast valg: ");
+        displayText("1. Opret bruger");
+        displayText("2. Vis bruger");
+        displayText("3. Vis alle brugere");
+        displayText("4. Slet bruger");
+        displayText("5. Ret bruger");
+        displayText("6. Afslut program");
+        displayText("Indtast valg: ");
         int userSelection = sc.nextInt();
 
         switch (userSelection) {
@@ -46,7 +45,7 @@ public class TUI implements ITUI {
                 updateUser();
                 break;
             case 6:
-                System.out.println("Program afsluttes");
+                displayText("Program afsluttes");
                 System.exit(0);
                 break;
             default:
@@ -60,29 +59,30 @@ public class TUI implements ITUI {
         String userName;
         String userIni;
         int userId;
-        System.out.print("Indtast fornavn: ");
+        displayText("Indtast fornavn: ");
         String fornavn = sc.next();
-        System.out.print("Indtast efternavn: ");
+        displayText("Indtast efternavn: ");
         String efternavn = sc.next();
-        System.out.println("Indtast ønskede bruger ID(10-99): ");
+        displayText("Indtast ønskede bruger ID(10-99): ");
         userId = sc.nextInt();
 
         userIni = String.valueOf(fornavn.charAt(0) + efternavn.charAt(0));
         userName = fornavn + " " + efternavn;
         ArrayList<String> roles = null;
         String password = null;
-        System.out.print("Indtast cpr: ");
+        displayText("Indtast cpr: ");
         String cpr = sc.next();
         try {
             cont.createUser(user = new UserDTO(userId, userName, userIni, roles, password, cpr));
         } catch (IUserDAO.DALException e) {
             e.printStackTrace();
         }
+        //sc.close();
     }
 
     @Override
     public void showUser() {
-        System.out.print("Indtast ID for at vise bruger: ");
+        displayText("Indtast ID for at vise bruger: ");
         int ID = sc.nextInt();
         try {
             System.out.println(cont.getUser(ID));
@@ -91,55 +91,32 @@ public class TUI implements ITUI {
         }
     }
 
-
     @Override
     public void updateUser() throws IUserDAO.DALException {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Indtast bruger ID");
+        displayText("Indtast bruger ID");
         int id = sc.nextInt();
-        System.out.println("Hvilke informationer vil du redigerer: ");
-        System.out.println("1. Navn");
-        System.out.println("2. CPR");
-        System.out.println("3. Roller");
-        System.out.println("4. Password");
-        int userSelection = sc.nextInt();
-        switch (userSelection) {
-            case 1:
-                System.out.println("Indtast nyt navn: ");
-                String newName = sc.next();
-                cont.getUser(id).setUserName(newName);
-                break;
-            case 2:
-                System.out.println("Indtast nyt CPR: ");
-                String cpr = sc.next();
-                cont.getUser(id).setCpr(cpr);
-                break;
-
-            case 3:
-//                System.out.println("Indtast ny rolle: ");
-//                String rolle = sc.next();
-//                cont.getUser(id).setRoles(rolle);
-                break;
-
-            case 4:
-                System.out.println("Indtast nyt password ");
-                String password = sc.next();
-                cont.getUser(id).setUserName(password);
-                break;
-        }
-        sc.close();
+        cont.updateUser(id);
     }
 
     @Override
     public void deleteUser() throws IUserDAO.DALException {
-        System.out.print("Indtast ID for at slette bruger: ");
+        displayText("Indtast ID for at slette bruger: ");
         int ID = sc.nextInt();
-        cont.getUser(ID).deleteUser();
+        cont.deleteUser(ID);
     }
 
     public void showUserList() throws IUserDAO.DALException {
         for (int i = 0; i < cont.getUserList().size(); i++) {
-            System.out.println(cont.getUserList().get(i));
+            printObject(cont.getUserList().get(i));
         }
+    }
+
+    public static void displayText(String str) {
+        System.out.println(str);
+    }
+
+
+    public static void printObject(UserDTO user) {
+        System.out.println(user);
     }
 }
