@@ -51,24 +51,71 @@ public class TUI implements ITUI {
     }
 
     @Override
-    public void createUser() {
+    public void createUser() throws IUserDAO.DALException {
         Scanner sc = new Scanner(System.in);
         String userName;
         String userIni;
-        int userId = 1;
-        System.out.print("Indtast fornavn: ");
-        String fornavn = sc.next();
-        System.out.print("Indtast efternavn: ");
-        String efternavn = sc.next();
+        int userId;
+        //INPUT ID AND CHECK
+        System.out.println("Indtast unikt brugerID (integer i interval 11-99");
+        userId = Integer.parseInt(sc.nextLine());
+        while(!cont.checkID(userId)){
+            System.out.println("Ugyldigt brugerID. Indtast nyt brugerID");
+            userId = Integer.parseInt(sc.nextLine());
+        }
 
-        userIni = String.valueOf(fornavn.charAt(0) + efternavn.charAt(0));
+        //INPUT USERNAME AND CHECK
+        System.out.print("Indtast fornavn: ");
+        String fornavn = sc.nextLine();
+        System.out.print("Indtast efternavn: ");
+        String efternavn = sc.nextLine();
         userName = fornavn + " " + efternavn;
-        ArrayList<String> roles = null;
-        String password = null;
+        System.out.println("Brugernavn er: "+ userName);
+        userIni = String.valueOf(fornavn.charAt(0) + efternavn.charAt(0));
+        while(!cont.checkUserName(userName)){
+            System.out.println("Ugyldigt brugernavn. Skal være mellem 2 - 20 karakterer. Indtast nyt brugernavn.");
+            userName = sc.nextLine();
+        }
+        System.out.println("Initiale er: " + userIni);
+        //behøver ikke check, når initialer autogenereres til 2 bogstaver
+
+        //INPUT AND CHECK ROLES
+        ArrayList<String> roles = new ArrayList<>();
+        System.out.println("Indtast enkeltvist roller. (max 4) Afslut med \"end\". \n" +
+                "Mulige roller: Admin, Pharmacist, Foreman, Operator");
+        for (int i = 0; i < 4; i++) {
+            roles.add(sc.nextLine());
+            if (roles.get(i).equals("end")) {
+                roles.remove(i);
+                break;
+            }
+        }
+        while(!cont.checkRoles(roles)){
+            System.out.println("En eller flere roller er ugyldige. Indtast dem igen ");
+            roles.clear();
+            for (int i = 0; i < 4; i++) {
+                roles.add(sc.nextLine());
+                if (roles.get(i).equals("end")) {
+                    roles.remove(i);
+                    break;
+                }
+            }
+        }
+
+        //GENERATING PASSWORD
+        String password = cont.generatePassword();
+
+        //INPUT CPR AND CHECK
         System.out.print("Indtast cpr: ");
         String cpr = sc.next();
+        while(!cont.checkCPR(cpr)){
+            System.out.println("Ugyldigt cpr. Indtast igen. Skal være 10 cifre. Ingen bogstaver");
+            cpr = sc.nextLine();
+        }
+
+        //CREATING OBJECT
         try {
-            cont.createUser(user = new UserDTO(userId, userName, userIni, roles, password, cpr));
+            cont.createUser(new UserDTO(userId, userName, userIni, roles, password, cpr));
         } catch (IUserDAO.DALException e) {
             e.printStackTrace();
         }
