@@ -42,10 +42,10 @@ public class Controller implements iController {
             String lastName = setNewLastname(sc, "Indtast efternavn: ");
             userName = firstName + " " + lastName;
             ini = String.valueOf(firstName.charAt(0) + lastName.charAt(0));
-        } while (checkUserName(userName));
+        } while (!checkUserName(userName));
         cpr = setNewCPR(sc, "Indtast cpr nr: ");
         ArrayList<String> roles = setNewRoles(sc);
-        password = setNewPassword(sc,"Indtast nyt kodeord: ");
+        password = setNewPassword(sc, "Indtast nyt kodeord: ");
         UserDTO user = new UserDTO(userId, userName, ini, roles, password, cpr);
         this.data.updateUser(user);
         sc.close(); // KAN BUGGE HUSK AT TEST
@@ -73,7 +73,7 @@ public class Controller implements iController {
     private String setNewCPR(Scanner sc, String s) {
         do {
             TUI.displayText(s);
-        } while (checkCPR(s));
+        } while (!checkCPR(s));
         return sc.next();
     }
 
