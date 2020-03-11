@@ -3,7 +3,6 @@ package funktionalitet;
 import TUI.TUI;
 import codegenerator.Codegenerator;
 import data.IUserDAO;
-import data.UserDAODB;
 import data.UserDAODISK;
 import datatransfer.UserDTO;
 
@@ -12,7 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Controller implements iController {
-    IUserDAO data;
+    private IUserDAO data;
 
     public Controller() {
         //only run one of these at a time!
@@ -34,21 +33,25 @@ public class Controller implements iController {
     @Override
     public void updateUser(int userId) throws IUserDAO.DALException {
         Scanner sc = new Scanner(System.in);
-        String userName = "";
+        String userName;
         String cpr;
         String password;
         String ini;
         do {
-            String firstName = getNewName(sc, "Indtast fornavn: ");
-            String lastName = getNewLastname(sc, "Indtast efternavn: ");
+            String firstName = setNewName(sc, "Indtast fornavn: ");
+            String lastName = setNewLastname(sc, "Indtast efternavn: ");
             userName = firstName + " " + lastName;
             ini = String.valueOf(firstName.charAt(0) + lastName.charAt(0));
         } while (checkUserName(userName));
+        cpr = setNewCPR(sc, "Indtast cpr nr: ");
+        ArrayList<String> roles = setNewRoles(sc);
+        password = setNewPassword(sc,"Indtast nyt kodeord: ");
+        UserDTO user = new UserDTO(userId, userName, ini, roles, password, cpr);
+        this.data.updateUser(user);
+        sc.close(); // KAN BUGGE HUSK AT TEST
+    }
 
-        do {
-            cpr = getNewCPR(sc, "Indtast cpr nr: ");
-        } while (checkCPR(cpr));
-
+    private ArrayList<String> setNewRoles(Scanner sc) {
         ArrayList<String> roles = new ArrayList<>();
         TUI.displayText("Indtast enkeltvist roller. (max 4) Afslut med \"end\". \n" +
                 "Mulige roller: Admin, Pharmacist, Foreman, Operator");
@@ -59,27 +62,27 @@ public class Controller implements iController {
                 break;
             }
         }
-        password = getNewPassword(sc);
-        UserDTO user = new UserDTO(userId, userName, ini, roles, password, cpr);
-        this.data.updateUser(user);
+        return roles;
     }
 
-    private String getNewPassword(Scanner sc) {
-        TUI.displayText("Indtast nyt kodeord: ");
-        return sc.next();
-    }
-
-    private String getNewCPR(Scanner sc, String s) {
+    private String setNewPassword(Scanner sc, String s) {
         TUI.displayText(s);
         return sc.next();
     }
 
-    private String getNewLastname(Scanner sc, String s) {
+    private String setNewCPR(Scanner sc, String s) {
+        do {
+            TUI.displayText(s);
+        } while (checkCPR(s));
+        return sc.next();
+    }
+
+    private String setNewLastname(Scanner sc, String s) {
         TUI.displayText(s);
         return sc.next();
     }
 
-    private String getNewName(Scanner sc, String s) {
+    private String setNewName(Scanner sc, String s) {
         TUI.displayText(s);
         return sc.next();
     }
