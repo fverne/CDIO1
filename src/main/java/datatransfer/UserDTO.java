@@ -81,15 +81,6 @@ public class UserDTO implements Serializable{
 		return this.roles.remove(role);
 	}
 
-//	public void deleteUser() {
-//		this.userId = 9999;
-//		this.userName = null;
-//		this.ini = null;
-//		this.roles = null;
-//		this.password = null;
-//		this.cpr = null;
-//	}
-
 	@Override
 	public String toString() {
 		return "[userId=" + userId + ", userName=" + userName + ", ini=" + ini + ", roles=" + roles + ", password=" + password + ", cpr=" + cpr + "]";

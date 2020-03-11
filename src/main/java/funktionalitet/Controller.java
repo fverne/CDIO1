@@ -4,6 +4,7 @@ import TUI.TUI;
 import codegenerator.Codegenerator;
 import data.IUserDAO;
 import data.UserDAODB;
+import data.UserDAODISK;
 import datatransfer.UserDTO;
 
 import java.util.ArrayList;
@@ -15,23 +16,14 @@ public class Controller implements iController {
 
     public Controller() throws IUserDAO.DALException {
         //only run one of these at a time!
-        this.data = new UserDAO(new Codegenerator());
-        //this.data = new UserDAODISK();
+        //this.data = new UserDAO(new Codegenerator());
+        this.data = new UserDAODISK();
         //this.data = newUserDAODB();
-    }
-
-    public void createUser(UserDTO user) throws IUserDAO.DALException {
-        this.data.createUser(user);
     }
 
     @Override
     public UserDTO getUser(int userId) throws IUserDAO.DALException {
         return this.data.getUser(userId);
-    }
-
-    @Override
-    public List<UserDTO> getUserList() throws IUserDAO.DALException {
-        return data.getUserList();
     }
 
     @Override
@@ -41,53 +33,50 @@ public class Controller implements iController {
 
     @Override
     public void updateUser(int userId) throws IUserDAO.DALException {
+        //lav objekt ud fra userID og send til userDAO
         Scanner sc = new Scanner(System.in);
-        TUI.displayText("Hvilke informationer vil du redigerer: \n1. Navn\n2. Cpr\n3. Roller\n4. Password");
+        TUI.displayText("Indtast fornavn: ");
+        String firstName = sc.next();
+        TUI.displayText("Indtast efternavn: ");
+        String lastName = sc.next();
+        TUI.displayText("Indtast cpr nr: ");
+        String cpr = sc.next();
+        String userName = firstName+" "+lastName;
+        String ini = String.valueOf(firstName.charAt(0)+lastName.charAt(0));
+        ArrayList<String> roles = new ArrayList<>();
+        TUI.displayText("Vælg roller\n1. Pharma\n2.dsadsa,\n3.dsadsa,\n4.dasdsa");
         int userSelection = sc.nextInt();
-        switch (userSelection) {
+        switch (userSelection){
             case 1:
-                TUI.displayText("Indtast navn: ");
-                String newName = sc.next();
-                data.getUser(userId).setUserName(newName);
+                roles.add("Pharma");
                 break;
             case 2:
-                TUI.displayText("Indtast cpr: ");
-                String cpr = sc.next();
-                getUser(userId).setCpr(cpr);
+                roles.add("nr2");
                 break;
-
             case 3:
-                this.data.getUser(userId).getRoles().clear();
-                TUI.displayText("Tast y/n for at tilvælge roller: ");
-                ArrayList<String> roles = new ArrayList<>();
-                if (sc.next().equals("y")) {
-                    roles.add("Admin");
-                }
-                TUI.displayText("Pharmacist");
-                if (sc.next().equals("y")) {
-                    roles.add("Pharmacist");
-                }
-                TUI.displayText("Foreman");
-                if (sc.next().equals("y")) {
-                    roles.add("Foreman");
-                }
-                TUI.displayText("Operator");
-                if (sc.next().equals("y")) {
-                    roles.add("Operator");
-                }
-                this.data.getUser(userId).setRoles(roles);
+                roles.add("nr3");
                 break;
-
             case 4:
-                TUI.displayText("Indtast password: ");
-                String password = sc.next();
-                getUser(userId).setUserName(password);
-                break;
-            default:
+                roles.add("nr 4");
                 break;
         }
-        sc.close();
-        this.data.deleteUser(userId);
+        TUI.displayText("Indtast kodeord: ");
+        String password = sc.next();
+        UserDTO user = new UserDTO(userId, userName,ini,roles,password,cpr);
+        this.data.updateUser(user);
+    }
+
+
+
+    //virker
+    public void createUser(UserDTO user) throws IUserDAO.DALException {
+        this.data.createUser(user);
+    }
+
+    //virker
+    @Override
+    public List<UserDTO> getUserList() throws IUserDAO.DALException {
+        return data.getUserList();
     }
 
     /*
@@ -96,11 +85,10 @@ public class Controller implements iController {
     ***
      */
 
-    public boolean checkID(int id) throws IUserDAO.DALException{
-        if(!(id >= 11 && id <= 99) ){
+    public boolean checkID(int id) throws IUserDAO.DALException {
+        if (!(id >= 11 && id <= 99)) {
             return false; //ID is not within boundaries
-        }
-        else {
+        } else {
             for (UserDTO tempuser : data.getUserList()) { //Is ID used before?
                 if (tempuser.getUserId() == id) {
                     return false; //ID is already in use
@@ -111,34 +99,31 @@ public class Controller implements iController {
 
     }
 
-    public boolean checkCPR(String cpr){
-        if(cpr.length() != 10){
+    public boolean checkCPR(String cpr) {
+        if (cpr.length() != 10) {
             return false; //wrong length
         }
-        for(int i = 0; i < cpr.length(); i++){
-            if(cpr.charAt(i) > '9' || cpr.charAt(i) < '0'){
+        for (int i = 0; i < cpr.length(); i++) {
+            if (cpr.charAt(i) > '9' || cpr.charAt(i) < '0') {
                 return false; //cannot contain characters other than numbers
             }
         }
         return true; //CPR good
     }
 
-    public boolean checkUserName(String userName){
-        if(userName.length() < 2 || userName.length() > 20){
-            return false; //wrong length must be 2-20 characters
-        }
-        return true;
+    public boolean checkUserName(String userName) {
+        return userName.length() >= 2 && userName.length() <= 20; //wrong length must be 2-20 characters
     }
 
-    public boolean checkRoles(ArrayList<String> roles){
-        if(roles.isEmpty()){
+    public boolean checkRoles(ArrayList<String> roles) {
+        if (roles.isEmpty()) {
             return false; //user must have a role
         }
-        for(String role : roles){
-            if(! (role.equals("Pharmacist") ||
+        for (String role : roles) {
+            if (!(role.equals("Pharmacist") ||
                     role.equals("Admin") ||
                     role.equals("Foreman") ||
-                    role.equals("Operator"))){
+                    role.equals("Operator"))) {
 
                 return false; //atleast one role is not viable
             }
@@ -146,7 +131,7 @@ public class Controller implements iController {
         return true;
     }
 
-    public String generatePassword(){
+    public String generatePassword() {
         Codegenerator passGen = new Codegenerator();
         return passGen.generateCode();
     }
