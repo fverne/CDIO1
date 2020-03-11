@@ -16,7 +16,7 @@ public class Controller implements iController {
         //only run one of these at a time!
         this.data = new UserDAO(new Codegenerator());
         //this.data = new UserDAODISK();
-        //this.data = newUsaDAODB();
+        //this.data = newUserDAODB();
     }
 
     public void createUser(UserDTO user) throws IUserDAO.DALException {
