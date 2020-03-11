@@ -1,9 +1,7 @@
 package datatransfer;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class UserDTO implements Serializable{
 
@@ -64,7 +62,7 @@ public class UserDTO implements Serializable{
 		this.ini = ini;
 	}
 
-	public List<String> getRoles() {
+	public ArrayList<String> getRoles() {
 		return roles;
 	}
 	public void setRoles(ArrayList<String> roles) {

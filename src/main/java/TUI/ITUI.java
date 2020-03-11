@@ -7,7 +7,7 @@ import java.io.IOException;
 public interface ITUI {
 
     void showMenu() throws IOException, IUserDAO.DALException;
-    void addUser();
+    void createUser();
     void showUser();
     void updateUser() throws IUserDAO.DALException;
     void deleteUser() throws IUserDAO.DALException;

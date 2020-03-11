@@ -5,7 +5,6 @@ import datatransfer.UserDTO;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class UserDAODISK implements IUserDAO {
     private List<UserDTO> userList;
@@ -26,28 +25,13 @@ public class UserDAODISK implements IUserDAO {
 
     @Override
     public void createUser(UserDTO user) throws DALException {
-        Scanner sc = new Scanner(System.in);
-        String userName;
-        String userIni;
-        System.out.print("Indtast fornavn: ");
-        String fornavn = sc.next();
-        System.out.print("Indtast efternavn: ");
-        String efternavn = sc.next();
-
-        userIni = String.valueOf(fornavn.charAt(0)+efternavn.charAt(0));
-        userName = fornavn+" "+efternavn;
-
-        System.out.print("Indtast cpr: ");
-        String cpr = sc.next();
-
-        userList.add(new UserDTO(4,userName,userIni,null,"password",cpr));
+        userList.add(user);
         saveUsersToDisk(userList);
     }
 
     @Override
     public UserDTO getUser(int userId) throws DALException {
-        System.out.println("Ikke implementeret");
-        return test = new UserDTO();
+        return userList.get(userId);
     }
 
     @Override
@@ -63,7 +47,7 @@ public class UserDAODISK implements IUserDAO {
         return list;
     }
 
-    private static void saveUsersToDisk(List<UserDTO> userList){
+    private static void saveUsersToDisk(List<UserDTO> userList) {
         try {
             FileOutputStream fos = new FileOutputStream("UserDTO.dat");
             ObjectOutputStream outputStream = new ObjectOutputStream(fos);

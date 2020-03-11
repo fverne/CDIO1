@@ -2,7 +2,7 @@ package data;
 
 import datatransfer.UserDTO;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class UserDAO implements IUserDAO {
     @Override
@@ -11,7 +11,7 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public List<UserDTO> getUserList() throws DALException {
+    public ArrayList<UserDTO> getUserList() throws DALException {
         return null;
     }
 
