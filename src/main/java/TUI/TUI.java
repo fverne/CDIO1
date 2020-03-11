@@ -138,6 +138,8 @@ public class TUI implements ITUI {
     }
 
     public void showUserList() throws IUserDAO.DALException {
-        System.out.println(cont.getUserList());
+        for (int i = 0; i < cont.getUserList().size(); i++) {
+            System.out.println(cont.getUserList().get(i));
+        }
     }
 }
