@@ -1,9 +1,7 @@
 package datatransfer;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class UserDTO implements Serializable{
 
@@ -27,6 +25,7 @@ public class UserDTO implements Serializable{
 
 	public UserDTO() {
 	}
+
 
 	public String getPassword() {
 		return password;
@@ -63,7 +62,7 @@ public class UserDTO implements Serializable{
 		this.ini = ini;
 	}
 
-	public List<String> getRoles() {
+	public ArrayList<String> getRoles() {
 		return roles;
 	}
 	public void setRoles(ArrayList<String> roles) {
@@ -82,9 +81,18 @@ public class UserDTO implements Serializable{
 		return this.roles.remove(role);
 	}
 
+	public void deleteUser() {
+		this.userId = 9999;
+		this.userName = null;
+		this.ini = null;
+		this.roles = null;
+		this.password = null;
+		this.cpr = null;
+	}
+
 	@Override
 	public String toString() {
-		return "UserDTO: [userId=" + userId + ", userName=" + userName + ", ini=" + ini + ", roles=" + roles + ", password=" + password + ", cpr=" + cpr + "]";
+		return "[userId=" + userId + ", userName=" + userName + ", ini=" + ini + ", roles=" + roles + ", password=" + password + ", cpr=" + cpr + "]";
 	}
 
 

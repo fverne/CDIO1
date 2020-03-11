@@ -1,15 +1,16 @@
 package data;
-import java.util.List;
 
 import datatransfer.UserDTO;
+
+import java.util.List;
 
 public interface IUserDAO {
 
 	UserDTO getUser(int userId) throws DALException;
 	List<UserDTO> getUserList() throws DALException;
 	void createUser(UserDTO user) throws DALException;
-	void updateUser(UserDTO user) throws DALException;
 	void deleteUser(int userId) throws DALException;
+	void updateUser(UserDTO user) throws DALException;
 	
 	public class DALException extends Exception {
 
