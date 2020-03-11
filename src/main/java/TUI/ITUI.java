@@ -9,7 +9,7 @@ public interface ITUI {
     void showMenu() throws IOException, IUserDAO.DALException;
     void addUser();
     void showUser();
-    void updateUser();
-    void deleteUser();
+    void updateUser() throws IUserDAO.DALException;
+    void deleteUser() throws IUserDAO.DALException;
 
 }

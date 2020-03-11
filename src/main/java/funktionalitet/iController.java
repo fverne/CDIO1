@@ -7,11 +7,12 @@ import java.io.IOException;
 
 public interface iController {
 
-    void addUser() throws IOException;
+    void addUser(UserDTO user) throws IUserDAO.DALException;
 
     UserDTO showUser(int userId) throws IUserDAO.DALException;
 
-    void deleteUser(int userId) throws IOException;
+    void deleteUser(int userId) throws IOException, IUserDAO.DALException;
 
-    void updateUser(int userId);
+    void updateUser(int userId) throws IUserDAO.DALException;
+
 }

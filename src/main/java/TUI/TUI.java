@@ -1,14 +1,16 @@
 package TUI;
 
 import data.IUserDAO;
+import datatransfer.UserDTO;
 import funktionalitet.Controller;
 
 import java.io.IOException;
 import java.util.Scanner;
 
-public class TUI implements ITUI{
+public class TUI implements ITUI {
     Scanner sc;
     private Controller cont;
+    UserDTO user;
 
 
     public TUI() {
@@ -16,7 +18,7 @@ public class TUI implements ITUI{
         sc = new Scanner(System.in);
     }
 
-    public void showMenu() throws IOException {
+    public void showMenu() throws IUserDAO.DALException {
         sc = new Scanner(System.in);
         System.out.println("1. Opret bruger");
         System.out.println("2. Vis bruger");
@@ -51,8 +53,8 @@ public class TUI implements ITUI{
     @Override
     public void addUser() {
         try {
-            cont.addUser();
-        } catch (IOException e) {
+            cont.addUser(user = new UserDTO());
+        } catch (IUserDAO.DALException e) {
             e.printStackTrace();
         }
     }
@@ -69,14 +71,15 @@ public class TUI implements ITUI{
     }
 
     @Override
-    public void updateUser() {
+    public void updateUser() throws IUserDAO.DALException {
+        Scanner sc = new Scanner(System.in);
         System.out.print("Indtast ID for at opdatere bruger: ");
         int ID = sc.nextInt();
         cont.updateUser(ID);
     }
 
     @Override
-    public void deleteUser() {
+    public void deleteUser() throws IUserDAO.DALException {
         System.out.print("Indtast ID for at slette bruger: ");
         int ID = sc.nextInt();
         cont.deleteUser(ID);

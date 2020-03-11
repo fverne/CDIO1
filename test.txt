@@ -1,16 +1,1 @@
-**********************
-ID: 1
-Navn: dasds dssdaads
-CPR: dsaasasd
-Initialer: 200
-Kodeord: dassd
-**********************
-
-**********************
-ID: 14
-Navn: dsa asddasds
-CPR: dasds
-Initialer: 197
-Kodeord: dasds
-**********************
 
