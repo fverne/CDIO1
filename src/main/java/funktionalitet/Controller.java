@@ -41,16 +41,16 @@ public class Controller implements iController {
         String password;
         String ini;
         do {
-            String firstName = setNewName(sc, "Indtast fornavn: ");
-            String lastName = setNewLastname(sc, "Indtast efternavn: ");
+            String firstName = getInput(sc, "Indtast fornavn: ");
+            String lastName = getInput(sc, "Indtast efternavn: ");
             userName = firstName + " " + lastName;
             ini = ("" + firstName.charAt(0) + lastName.charAt(0));
         } while (!checkUserName(userName));
         do {
-            cpr = setNewCPR(sc, "Indtast cpr nr: ");
+            cpr = getInput(sc, "Indtast cpr nr: ");
         } while (!checkCPR(cpr));
         ArrayList<String> roles = setNewRoles(sc);
-        password = setNewPassword(sc, "Indtast nyt kodeord: ");
+        password = getInput(sc, "Indtast nyt kodeord: ");
         UserDTO user = new UserDTO(userId, userName, ini, roles, password, cpr);
         this.data.updateUser(user);
     }
@@ -66,30 +66,25 @@ public class Controller implements iController {
                 break;
             }
         }
+        while(!checkRoles(roles)){ //checking if roles are good if not repeat process of entering roles
+            TUI.displayText("Mindst 1 ugyldig rolle. Indtast roller igen.");
+            roles.clear();
+            for (int i = 0; i < 4; i++) {
+                roles.add(sc.next());
+                if (roles.get(i).equals("end")) {
+                    roles.remove(i);
+                    break;
+                }
+            }
+        }
         return roles;
     }
 
-    private String setNewPassword(Scanner sc, String s) {
+    private String getInput(Scanner sc, String s) {
         TUI.displayText(s);
         return sc.next();
     }
 
-    private String setNewCPR(Scanner sc, String s) {
-
-        TUI.displayText(s);
-
-        return sc.next();
-    }
-
-    private String setNewLastname(Scanner sc, String s) {
-        TUI.displayText(s);
-        return sc.next();
-    }
-
-    private String setNewName(Scanner sc, String s) {
-        TUI.displayText(s);
-        return sc.next();
-    }
 
     public void createUser(UserDTO user) throws IUserDAO.DALException {
         this.data.createUser(user);
