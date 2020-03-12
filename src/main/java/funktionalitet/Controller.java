@@ -85,7 +85,6 @@ public class Controller implements iController {
         return sc.next();
     }
 
-
     public void createUser(UserDTO user) throws IUserDAO.DALException {
         this.data.createUser(user);
     }
