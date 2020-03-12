@@ -16,14 +16,13 @@ public class UserDAODB implements IUserDAO {
     public UserDAODB() {
         String host = "localhost";
         String port = "3306";
-        String database = "cdio1_crud";
+        String database = "crud_db";
         username = "test";
         password = "124";
 
         //Edit only if needed
         driver = "com.mysql.cj.jdbc.Driver";
         url = "jdbc:mysql://" + host + ":" + port + "/" + database + "?characterEncoding=latin1&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-
     }
 
     // queries the database with the given information
@@ -32,14 +31,12 @@ public class UserDAODB implements IUserDAO {
 
         try {
             Class.forName(driver);
-            String sqlQuery;
 
             System.out.println("Querying SQL...");
-            sqlQuery = query;
 
             Connection connection = DriverManager.getConnection(this.url, username, password);
             Statement statement = connection.createStatement();
-            resultSet = statement.executeQuery(sqlQuery);
+            resultSet = statement.executeQuery(query);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,6 +44,26 @@ public class UserDAODB implements IUserDAO {
         }
 
         return resultSet;
+    }
+
+    public Statement makeDBManipulation(String manipulation) throws DALException {
+        Statement statement;
+
+        try {
+            Class.forName(driver);
+
+            System.out.println("Manipulating SQL...");
+
+            Connection connection = DriverManager.getConnection(this.url, username, password);
+            statement = connection.createStatement();
+            statement.executeUpdate(manipulation);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DALException("Something went wrong with makeDBQuery()");
+        }
+
+        return statement;
     }
 
     public void closeDBConnection() throws DALException {
@@ -125,6 +142,8 @@ public class UserDAODB implements IUserDAO {
             resultSet.beforeFirst(); //Set pointer for resultSet.next()
             while (resultSet.next()) {
                 //Print all values in a row
+                tempDTOArray.clear();
+                tempRolesArray.clear();
                 for (int i = 1; i <= columnCount; i++) {
 
                     if (i < 6) {
@@ -144,14 +163,10 @@ public class UserDAODB implements IUserDAO {
                         tempRolesArray.add("Operator");
                     }
                 }
+
+                multipleDTOArray.add(new UserDTO(Integer.parseInt(tempDTOArray.get(0)), tempDTOArray.get(1), tempDTOArray.get(2), tempRolesArray, tempDTOArray.get(3), tempDTOArray.get(4)));
             }
 
-            int useriterator = 0;
-            resultSet.beforeFirst(); //Set pointer for resultSet.next()
-            while (resultSet.next()) {
-                useriterator = useriterator + 1;
-                multipleDTOArray.add(getUser(useriterator));
-            }
         } catch (Exception e) {
             e.printStackTrace();
             throw new DALException("Something went wrong with getUserList()");
@@ -163,17 +178,49 @@ public class UserDAODB implements IUserDAO {
 
     @Override
     public void createUser(UserDTO user) throws DALException {
+        int isAdmin = 0;
+        int isPharmacist = 0;
+        int isForeman = 0;
+        int isOperator = 0;
 
+        for (int i = 1; i <= user.getRoles().size(); i++) {
+
+            if (user.getRoles().contains("Admin")) {
+                isAdmin = 1;
+            }
+            if (user.getRoles().contains("Pharmacist")) {
+                isPharmacist = 1;
+            }
+            if (user.getRoles().contains("Foreman")) {
+                isForeman = 1;
+            }
+            if (user.getRoles().contains("Operator")) {
+                isOperator = 1;
+            }
+        }
+
+        try {
+            makeDBManipulation("INSERT INTO users VALUES (" + user.getUserId() + ", '" + user.getUserName() + "', '" + user.getIni() + "', '" + user.getPassword() + "', '" + user.getCpr() + "', " + isAdmin + ", " + isPharmacist + ", " + isForeman + ", " + isOperator + ")");
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DALException("Something went wrong with createUser()");
+        }
     }
 
 
     @Override
     public void deleteUser(int userId) throws DALException {
-
+        try {
+            makeDBManipulation("DELETE FROM users WHERE userID = " + userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DALException("Something went wrong with deleteUser()");
+        }
     }
 
     @Override
     public void updateUser(UserDTO user) throws DALException {
-
+        deleteUser(user.getUserId());
+        createUser(user);
     }
 }

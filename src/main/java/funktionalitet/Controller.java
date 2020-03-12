@@ -3,8 +3,7 @@ package funktionalitet;
 import TUI.TUI;
 import codegenerator.Codegenerator;
 import data.IUserDAO;
-import data.UserDAO;
-import data.UserDAODISK;
+import data.UserDAODB;
 import datatransfer.UserDTO;
 
 import java.util.ArrayList;
@@ -16,9 +15,9 @@ public class Controller implements iController {
 
     public Controller() {
         //only run one of these at a time!
-        this.data = new UserDAO(new Codegenerator());
+//        this.data = new UserDAO(new Codegenerator());
         //this.data = new UserDAODISK();
-        //this.data = newUserDAODB();
+        this.data = new UserDAODB();
     }
 
     @Override
