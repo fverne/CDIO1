@@ -60,7 +60,7 @@ public class Controller implements iController {
         TUI.displayText("Indtast enkeltvist roller. (max 4) Afslut med \"end\". \n" +
                 "Mulige roller: Admin, Pharmacist, Foreman, Operator");
         for (int i = 0; i < 4; i++) {
-            roles.add(sc.nextLine());
+            roles.add(sc.next());
             if (roles.get(i).equals("end")) {
                 roles.remove(i);
                 break;
