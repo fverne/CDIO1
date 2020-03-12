@@ -75,9 +75,7 @@ public class Controller implements iController {
     }
 
     private String setNewCPR(Scanner sc, String s) {
-
         TUI.displayText(s);
-
         return sc.next();
     }
 
