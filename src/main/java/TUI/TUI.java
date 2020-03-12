@@ -105,7 +105,7 @@ public class TUI implements ITUI {
             displayText("En eller flere roller er ugyldige. Indtast dem igen ");
             roles.clear();
             for (int i = 0; i < 4; i++) {
-                roles.add(sc.nextLine());
+                roles.add(sc.next());
                 if (roles.get(i).equals("end")) {
                     roles.remove(i);
                     break;
