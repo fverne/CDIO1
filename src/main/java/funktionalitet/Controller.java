@@ -3,6 +3,7 @@ package funktionalitet;
 import TUI.TUI;
 import codegenerator.Codegenerator;
 import data.IUserDAO;
+import data.UserDAO;
 import data.UserDAODISK;
 import datatransfer.UserDTO;
 
@@ -15,8 +16,8 @@ public class Controller implements iController {
 
     public Controller() {
         //only run one of these at a time!
-        //this.data = new UserDAO(new Codegenerator());
-        this.data = new UserDAODISK();
+        this.data = new UserDAO(new Codegenerator());
+        //this.data = new UserDAODISK();
         //this.data = newUserDAODB();
     }
 
@@ -43,7 +44,7 @@ public class Controller implements iController {
             String firstName = setNewName(sc, "Indtast fornavn: ");
             String lastName = setNewLastname(sc, "Indtast efternavn: ");
             userName = firstName + " " + lastName;
-            ini = String.valueOf(firstName.charAt(0) + lastName.charAt(0));
+            ini = ("" + firstName.charAt(0) + lastName.charAt(0));
         } while (!checkUserName(userName));
         do {
             cpr = setNewCPR(sc, "Indtast cpr nr: ");
