@@ -56,8 +56,19 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public void updateUser(UserDTO user) throws DALException {
-
-        //updating a user should be possible by ".getUser.setX(y)"
+        boolean userDeleted = false;
+        for(UserDTO tempUser : userList){
+            if(tempUser.getUserId() == user.getUserId()){
+                userList.remove(tempUser);
+                userDeleted = true;
+            }
+        }
+        if (userDeleted){
+            userList.add(user);
+            System.out.println("User updated");
+        } else {
+            System.out.println("System was not able to update user");
+        }
     }
 
     @Override
