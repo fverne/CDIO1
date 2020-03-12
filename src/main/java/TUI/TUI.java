@@ -86,8 +86,8 @@ public class TUI implements ITUI {
             userName = sc.nextLine();
         }
         displayText("Brugernavn er: " + userName);
-        userIni += String.valueOf(fornavn.charAt(0) + efternavn.charAt(0));
-        displayText("Initiale er: " + userIni);
+        userIni = String.valueOf(fornavn.charAt(0) + efternavn.charAt(0));
+        displayText("Initialer er: " + userIni);
         //behøver ikke check, når initialer autogenereres til 2 bogstaver
 
         //INPUT AND CHECK ROLES
@@ -95,7 +95,7 @@ public class TUI implements ITUI {
         displayText("Indtast enkeltvist roller. (max 4) Afslut med \"end\". \n" +
                 "Mulige roller: Admin, Pharmacist, Foreman, Operator");
         for (int i = 0; i < 4; i++) {
-            roles.add(sc.nextLine());
+            roles.add(sc.next());
             if (roles.get(i).equals("end")) {
                 roles.remove(i);
                 break;
