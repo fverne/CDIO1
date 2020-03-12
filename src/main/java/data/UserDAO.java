@@ -18,13 +18,13 @@ public class UserDAO implements IUserDAO {
     private ArrayList<UserDTO> userList = new ArrayList<>();
 
 
-    public UserDAO(Codegenerator passGen){
+    public UserDAO(Codegenerator passGen) {
         //hardcoded objects that will load on creation of data layer
         // model public UserDTO(int userId, String userName, String ini, ArrayList<String> roles, String password, String cpr)
-        user1 = new UserDTO(11, "Boris", "BOI", new ArrayList<String>(Arrays.asList("Admin")), passGen.generateCode(),"1211981234");
-        user2 = new UserDTO(12, "OleBoi", "OB", new ArrayList<String>(Arrays.asList("Foreman")), passGen.generateCode(),"3008988995");
-        user3 = new UserDTO(13, "Corona", "CV", new ArrayList<String>(Arrays.asList("Pharmacist")), passGen.generateCode(),"1103784321");
-        user4 = new UserDTO(14, "360NoScopeX", "NS", new ArrayList<String>(Arrays.asList("Operator")), passGen.generateCode(),"0104691420");
+        user1 = new UserDTO(11, "Boris", "BOI", new ArrayList<String>(Arrays.asList("Admin")), passGen.generateCode(), "1211981234");
+        user2 = new UserDTO(12, "OleBoi", "OB", new ArrayList<String>(Arrays.asList("Foreman")), passGen.generateCode(), "3008988995");
+        user3 = new UserDTO(13, "Corona", "CV", new ArrayList<String>(Arrays.asList("Pharmacist")), passGen.generateCode(), "1103784321");
+        user4 = new UserDTO(14, "360NoScopeX", "NS", new ArrayList<String>(Arrays.asList("Operator")), passGen.generateCode(), "0104691420");
         userList.add(user1);
         userList.add(user2);
         userList.add(user3);
@@ -34,8 +34,8 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public UserDTO getUser(int userId) throws DALException {
-        for(UserDTO tempUser : userList){
-            if(tempUser.getUserId() == userId){
+        for (UserDTO tempUser : userList) {
+            if (tempUser.getUserId() == userId) {
                 return tempUser;
             }
         }
@@ -57,13 +57,13 @@ public class UserDAO implements IUserDAO {
     @Override
     public void updateUser(UserDTO user) throws DALException {
         boolean userDeleted = false;
-        for(UserDTO tempUser : userList){
-            if(tempUser.getUserId() == user.getUserId()){
+        for (UserDTO tempUser : userList) {
+            if (tempUser.getUserId() == user.getUserId()) {
                 userList.remove(tempUser);
                 userDeleted = true;
             }
         }
-        if (userDeleted){
+        if (userDeleted) {
             userList.add(user);
             System.out.println("User updated");
         } else {
@@ -74,16 +74,15 @@ public class UserDAO implements IUserDAO {
     @Override
     public void deleteUser(int userId) throws DALException {
         boolean userDeleted = false;
-        for(UserDTO tempUser : userList){
-            if(tempUser.getUserId() == userId){
+        for (UserDTO tempUser : userList) {
+            if (tempUser.getUserId() == userId) {
                 userList.remove(tempUser);
                 userDeleted = true;
             }
         }
-        if(userDeleted){
+        if (userDeleted) {
             System.out.println("User with ID: " + userId + " has been deleted.");
-        }
-        else{
+        } else {
             System.out.println("User with ID: " + userId + " was not found.");
         }
     }
