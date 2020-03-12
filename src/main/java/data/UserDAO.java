@@ -9,13 +9,14 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserDAO implements IUserDAO {
     private UserDTO user1;
     private UserDTO user2;
     private UserDTO user3;
     private UserDTO user4;
-    private ArrayList<UserDTO> userList = new ArrayList<>();
+    private List<UserDTO> userList = new ArrayList<>();
 
 
     public UserDAO(Codegenerator passGen) {
@@ -59,10 +60,11 @@ public class UserDAO implements IUserDAO {
         boolean userDeleted = false;
         for (UserDTO tempUser : userList) {
             if (tempUser.getUserId() == user.getUserId()) {
-                userList.remove(tempUser);
                 userDeleted = true;
             }
         }
+        userList = userList.stream().filter(t -> t.getUserId() != user.getUserId()).collect(Collectors.toList());
+
         if (userDeleted) {
             userList.add(user);
             System.out.println("User updated");
@@ -76,10 +78,11 @@ public class UserDAO implements IUserDAO {
         boolean userDeleted = false;
         for (UserDTO tempUser : userList) {
             if (tempUser.getUserId() == userId) {
-                userList.remove(tempUser);
                 userDeleted = true;
             }
         }
+        userList = userList.stream().filter(t -> t.getUserId() != userId).collect(Collectors.toList());
+
         if (userDeleted) {
             System.out.println("User with ID: " + userId + " has been deleted.");
         } else {
