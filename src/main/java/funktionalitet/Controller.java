@@ -32,6 +32,8 @@ public class Controller implements iController {
 
     @Override
     public void updateUser(int userId) throws IUserDAO.DALException {
+        TUI.displayText("Du har valgt at opdaterer følgende bruger: ");
+        TUI.displayObject(getUser(userId));
         Scanner sc = new Scanner(System.in);
         String userName;
         String cpr;
@@ -43,12 +45,13 @@ public class Controller implements iController {
             userName = firstName + " " + lastName;
             ini = String.valueOf(firstName.charAt(0) + lastName.charAt(0));
         } while (!checkUserName(userName));
-        cpr = setNewCPR(sc, "Indtast cpr nr: ");
+        do {
+            cpr = setNewCPR(sc, "Indtast cpr nr: ");
+        } while (!checkCPR(cpr));
         ArrayList<String> roles = setNewRoles(sc);
         password = setNewPassword(sc, "Indtast nyt kodeord: ");
         UserDTO user = new UserDTO(userId, userName, ini, roles, password, cpr);
         this.data.updateUser(user);
-        sc.close(); // KAN BUGGE HUSK AT TEST
     }
 
     private ArrayList<String> setNewRoles(Scanner sc) {
@@ -71,9 +74,9 @@ public class Controller implements iController {
     }
 
     private String setNewCPR(Scanner sc, String s) {
-        do {
-            TUI.displayText(s);
-        } while (!checkCPR(s));
+
+        TUI.displayText(s);
+
         return sc.next();
     }
 
