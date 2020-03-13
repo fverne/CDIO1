@@ -25,6 +25,70 @@ public class UserDAODB implements IUserDAO {
         url = "jdbc:mysql://" + host + ":" + port + "/" + database + "?characterEncoding=latin1&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     }
 
+    public void createDatabase() throws DALException{
+        String dbUrl = "jdbc:mysql://localhost";
+        String rootUser = "root";
+        String rootPassword = "????";
+        Connection conn = null;
+        Statement stmt = null;
+
+        try{
+            //register JDBC driver
+            Class.forName(driver);
+
+            //open connection
+            conn = DriverManager.getConnection(dbUrl, rootUser, rootPassword);
+
+            //create statement
+            stmt = conn.createStatement();
+            stmt.executeUpdate("Create Database crud_db");
+
+            //switch to created database
+            stmt.close();
+            conn.close();
+            conn = DriverManager.getConnection(url, rootUser, rootPassword);
+            stmt = conn.createStatement();
+
+            //create test user
+            stmt.executeUpdate("create user 'test'@'localhost' identified by '124'");
+            stmt.executeUpdate("grant all privileges on *.* to 'test'@'localhost'");
+
+            //switch to new user
+            stmt.close();
+            conn.close();
+            conn = DriverManager.getConnection(url, username, password);
+            stmt = conn.createStatement();
+
+            //create schemas
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //create schemas
+
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new DALException("problem creating database");
+        } finally {
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            try {
+                if (conn != null){
+                    conn.close();
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
     // queries the database with the given information
     public ResultSet makeDBQuery(String query) throws DALException {
         ResultSet resultSet;
