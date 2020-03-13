@@ -27,6 +27,7 @@ public class UserDAODB implements IUserDAO {
 
     }
 
+    //sees if the database exists and calls the creater if false
     public void checkDb() throws DALException{
         Connection conn = null;
         Statement stmt = null;
@@ -64,6 +65,7 @@ public class UserDAODB implements IUserDAO {
         }
     }
 
+    //sets up the database
     public void createDatabase() throws DALException {
         String dbUrl = "jdbc:mysql://localhost";
         Connection conn = null;
@@ -224,6 +226,7 @@ public class UserDAODB implements IUserDAO {
         return userDTO;
     }
 
+    //gets all users
     @Override
     public ArrayList<UserDTO> getUserList() throws DALException {
         ArrayList<UserDTO> multipleDTOArray = new ArrayList<>();

@@ -15,7 +15,7 @@ public class Controller implements iController {
     private IUserDAO data;
 
     public Controller() {
-        //only run one of these at a time!
+        //decides how to store data
         System.out.println("Tast 1 for implementering uden persistent data");
         System.out.println("Tast 2 for implementering med persistent data på disk");
         System.out.println("tast 3 for implementering med persistent data på database");
@@ -56,7 +56,7 @@ public class Controller implements iController {
         //Creating a new user objekt with all new parameters and send it to updateUser in data.
         //in data this new user will replace the old user.
         //could make it so not all parameters HAVE to be written again...
-        TUI.displayText("Du har valgt at opdaterer følgende bruger: ");
+        TUI.displayText("Du har valgt at opdatere følgende bruger: ");
         TUI.displayObject(getUser(userId));
         Scanner sc = new Scanner(System.in);
         String userName;
