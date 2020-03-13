@@ -26,6 +26,8 @@ public class TUI implements ITUI {
     }
 
     public void showMenu() throws IUserDAO.DALException {
+        //switch based TUI-menu. input number decides which feature to run.
+
         sc = new Scanner(System.in);
         displayText("1. Opret bruger");
         displayText("2. Vis bruger");
@@ -63,6 +65,7 @@ public class TUI implements ITUI {
 
     @Override
     public void createUser() throws IUserDAO.DALException {
+        //all input and output here. all value checks happens in controller with check-methods
         Scanner sc = new Scanner(System.in);
         String userName;
         String userIni = "";
@@ -90,7 +93,7 @@ public class TUI implements ITUI {
         displayText("Initialer er: " + userIni);
         //behøver ikke check, når initialer autogenereres til 2 bogstaver
 
-        //INPUT AND CHECK ROLES
+        //INPUT ROLES AND CHECK
         ArrayList<String> roles = new ArrayList<>();
         displayText("Indtast enkeltvist roller. (max 4) Afslut med \"end\". \n" +
                 "Mulige roller: Admin, Pharmacist, Foreman, Operator");
@@ -124,7 +127,7 @@ public class TUI implements ITUI {
             cpr = sc.nextLine();
         }
 
-        //CREATING OBJECT
+        //CREATING USER WITH ENTERED VALUES
         try {
             cont.createUser(new UserDTO(userId, userName, userIni, roles, password, cpr));
         } catch (IUserDAO.DALException e) {
@@ -134,6 +137,7 @@ public class TUI implements ITUI {
 
     @Override
     public void showUser() {
+        //input userID and return user
         displayText("Indtast ID for at vise bruger: ");
         int ID = sc.nextInt();
         try {
@@ -145,6 +149,7 @@ public class TUI implements ITUI {
 
     @Override
     public void updateUser() throws IUserDAO.DALException {
+        //input userID and access/change the users variables
         displayText("Indtast bruger ID");
         int id = sc.nextInt();
         cont.updateUser(id);
@@ -152,12 +157,14 @@ public class TUI implements ITUI {
 
     @Override
     public void deleteUser() throws IUserDAO.DALException {
+        //input userID and user will be deleted if found
         displayText("Indtast ID for at slette bruger: ");
         int ID = sc.nextInt();
         cont.deleteUser(ID);
     }
 
     public void showUserList() throws IUserDAO.DALException {
+        //outputs all users from data.
         if (cont.getUserList().size() == 0) {
             TUI.displayText("Listen er tom.");
         }

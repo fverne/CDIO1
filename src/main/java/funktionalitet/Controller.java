@@ -32,6 +32,9 @@ public class Controller implements iController {
 
     @Override
     public void updateUser(int userId) throws IUserDAO.DALException {
+        //Creating a new user objekt with all new parameters and send it to updateUser in data.
+        //in data this new user will replace the old user.
+        //could make it so not all parameters HAVE to be written again...
         TUI.displayText("Du har valgt at opdaterer følgende bruger: ");
         TUI.displayObject(getUser(userId));
         Scanner sc = new Scanner(System.in);
@@ -55,9 +58,12 @@ public class Controller implements iController {
     }
 
     private ArrayList<String> setNewRoles(Scanner sc) {
+        //method for setting/changing roles of object.
+        //all roles must be typed correctly.
         ArrayList<String> roles = new ArrayList<>();
         TUI.displayText("Indtast enkeltvist roller. (max 4) Afslut med \"end\". \n" +
                 "Mulige roller: Admin, Pharmacist, Foreman, Operator");
+        //first input
         for (int i = 0; i < 4; i++) {
             roles.add(sc.next());
             if (roles.get(i).equals("end")) {
@@ -65,7 +71,8 @@ public class Controller implements iController {
                 break;
             }
         }
-        while(!checkRoles(roles)){ //checking if roles are good if not repeat process of entering roles
+        //checking if roles are good if not repeat process of entering roles
+        while(!checkRoles(roles)){
             TUI.displayText("Mindst 1 ugyldig rolle. Indtast roller igen.");
             roles.clear();
             for (int i = 0; i < 4; i++) {
@@ -80,11 +87,14 @@ public class Controller implements iController {
     }
 
     private String getInput(Scanner sc, String s) {
+        //method for printing something on the TUI and immediately taking input afterwards
         TUI.displayText(s);
         return sc.next();
     }
 
     public void createUser(UserDTO user) throws IUserDAO.DALException {
+        //sends final new user object to data where it is added.
+        // input/output during creation is in TUI
         this.data.createUser(user);
     }
 
@@ -95,13 +105,13 @@ public class Controller implements iController {
 
     /*
     ***
-    ALL CHECKS RETURN TRUE IF THE VALUES ARE GOOD
+    ALL CHECK-METHODS RETURN TRUE IF THE VALUES ARE GOOD
     ***
      */
 
     public boolean checkID(int id) throws IUserDAO.DALException {
         if (!(id >= 11 && id <= 99)) {
-            return false; //ID is not within boundaries
+            return false; //ID is not within boundaries 11-99
         } else {
             for (UserDTO tempuser : data.getUserList()) { //Is ID used before?
                 if (tempuser.getUserId() == id) {
@@ -145,6 +155,7 @@ public class Controller implements iController {
     }
 
     public String generatePassword() {
+        //returns a randomly generated password with the proper password format
         Codegenerator passGen = new Codegenerator();
         return passGen.generateCode();
     }
