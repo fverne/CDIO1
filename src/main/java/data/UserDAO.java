@@ -35,6 +35,7 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public UserDTO getUser(int userId) throws DALException {
+        //returns user with same id
         for (UserDTO tempUser : userList) {
             if (tempUser.getUserId() == userId) {
                 return tempUser;
@@ -51,12 +52,14 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public void createUser(UserDTO user) throws DALException {
+        //adds user to userlist
         userList.add(user);
         System.out.println("New user added.");
     }
 
     @Override
     public void updateUser(UserDTO user) throws DALException {
+        //check if user is deletable and set the userlist without the user of given ID.
         boolean userDeleted = false;
         for (UserDTO tempUser : userList) {
             if (tempUser.getUserId() == user.getUserId()) {
@@ -65,6 +68,7 @@ public class UserDAO implements IUserDAO {
         }
         userList = userList.stream().filter(t -> t.getUserId() != user.getUserId()).collect(Collectors.toList());
 
+        //if user was found and removed then add the updated user.
         if (userDeleted) {
             userList.add(user);
             System.out.println("User updated");
@@ -75,6 +79,7 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public void deleteUser(int userId) throws DALException {
+        //check if user is found. set userlist without the user with given ID.
         boolean userDeleted = false;
         for (UserDTO tempUser : userList) {
             if (tempUser.getUserId() == userId) {
@@ -82,7 +87,7 @@ public class UserDAO implements IUserDAO {
             }
         }
         userList = userList.stream().filter(t -> t.getUserId() != userId).collect(Collectors.toList());
-
+        //output whether deleted or not
         if (userDeleted) {
             System.out.println("User with ID: " + userId + " has been deleted.");
         } else {

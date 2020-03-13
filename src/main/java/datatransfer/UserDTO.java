@@ -22,9 +22,6 @@ public class UserDTO implements Serializable {
         this.cpr = cpr;
     }
 
-    public UserDTO() {
-    }
-
     public String getPassword() {
         return password;
     }
