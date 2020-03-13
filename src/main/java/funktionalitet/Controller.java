@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Controller implements iController {
+public class Controller implements IController {
     private IUserDAO data;
 
     public Controller() {

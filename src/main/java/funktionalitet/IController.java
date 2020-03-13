@@ -6,7 +6,7 @@ import datatransfer.UserDTO;
 import java.io.IOException;
 import java.util.List;
 
-public interface iController {
+public interface IController {
 
     void createUser(UserDTO user) throws IUserDAO.DALException;
 
