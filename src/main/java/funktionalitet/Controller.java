@@ -16,9 +16,29 @@ public class Controller implements iController {
 
     public Controller() {
         //only run one of these at a time!
-        //this.data = new UserDAO(new Codegenerator());
-        //this.data = new UserDAODISK();
-        this.data = new UserDAODB();
+        System.out.println("Tast 1 for implementering uden persistent data");
+        System.out.println("Tast 2 for implementering med persistent data på disk");
+        System.out.println("tast 3 for implementering med persistent data på database");
+        Scanner scanner = new Scanner(System.in);
+        boolean retry = true;
+        do {
+            switch (scanner.nextInt()) {
+                case 1:
+                    this.data = new UserDAO(new Codegenerator());
+                    retry = false;
+                    break;
+                case 2:
+                    this.data = new UserDAODISK();
+                    retry = false;
+                    break;
+                case 3:
+                    this.data = new UserDAODB();
+                    retry = false;
+                    break;
+                default:
+                    System.out.println("Forket data input");
+            }
+        }  while (retry);
     }
 
     @Override
