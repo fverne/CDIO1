@@ -86,7 +86,7 @@ public class TUI implements ITUI {
             userName = sc.nextLine();
         }
         displayText("Brugernavn er: " + userName);
-        userIni = String.valueOf(fornavn.charAt(0) + efternavn.charAt(0));
+        userIni = "" + fornavn.charAt(0) + efternavn.charAt(0);
         displayText("Initialer er: " + userIni);
         //behøver ikke check, når initialer autogenereres til 2 bogstaver
 

@@ -60,14 +60,20 @@ public class UserDAODB implements IUserDAO {
             stmt = conn.createStatement();
 
             //create schemas
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //create schemas
+            /*
+            stmt.executeUpdate("CREATE TABLE `crud_db`.`users` (" +
+                    "userID int," +
+                    "userName varchar(20)," +
+                    "ini varchar(4)," +
+                    "pass varchar(255)," +
+                    "cpr varchar(13)," +
+                    "isAdmin boolean," +
+                    "isPharmacist boolean," +
+                    "isForeman boolean," +
+                    "isOperator boolean," +
+                    "PRIMARY KEY (userID))");
+
+             */
 
         } catch (Exception e){
             e.printStackTrace();
