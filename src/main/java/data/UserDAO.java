@@ -61,6 +61,7 @@ public class UserDAO implements IUserDAO {
         for (UserDTO tempUser : userList) {
             if (tempUser.getUserId() == user.getUserId()) {
                 userDeleted = true;
+                break;
             }
         }
         userList = userList.stream().filter(t -> t.getUserId() != user.getUserId()).collect(Collectors.toList());
@@ -81,6 +82,7 @@ public class UserDAO implements IUserDAO {
         for (UserDTO tempUser : userList) {
             if (tempUser.getUserId() == userId) {
                 userDeleted = true;
+                break;
             }
         }
         userList = userList.stream().filter(t -> t.getUserId() != userId).collect(Collectors.toList());
