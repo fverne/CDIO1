@@ -17,18 +17,55 @@ public class UserDAODB implements IUserDAO {
         String host = "localhost";
         String port = "3306";
         String database = "crud_db";
-        username = "test";
-        password = "124";
+        username = "root";
+        password = "Isbjorn44";
 
         //Edit only if needed
         driver = "com.mysql.cj.jdbc.Driver";
         url = "jdbc:mysql://" + host + ":" + port + "/" + database + "?characterEncoding=latin1&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+
+
+    }
+
+    public void checkDb() throws DALException{
+        Connection conn = null;
+        Statement stmt = null;
+
+        try {
+            //open connection
+            conn = DriverManager.getConnection("jdbc:mysql://localhost", username, password);
+            stmt = conn.createStatement();
+
+            //query for the database name
+            ResultSet response = stmt.executeQuery("SELECT SCHEMA_NAME\n" + "  FROM INFORMATION_SCHEMA.SCHEMATA\n" + " WHERE SCHEMA_NAME = 'crud_db'");
+
+            //see if the database is there
+            if (!response.next())
+                createDatabase();
+
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new DALException("Unable to connect to server");
+        } finally {
+            {
+                try {
+                    if (stmt != null)
+                        stmt.close();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+                try {
+                    if (conn != null)
+                        conn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public void createDatabase() throws DALException{
         String dbUrl = "jdbc:mysql://localhost";
-        String rootUser = "root";
-        String rootPassword = "????";
         Connection conn = null;
         Statement stmt = null;
 
@@ -37,30 +74,15 @@ public class UserDAODB implements IUserDAO {
             Class.forName(driver);
 
             //open connection
-            conn = DriverManager.getConnection(dbUrl, rootUser, rootPassword);
+            conn = DriverManager.getConnection(dbUrl, username, password);
 
             //create statement
             stmt = conn.createStatement();
+
+            //create db
             stmt.executeUpdate("Create Database crud_db");
 
-            //switch to created database
-            stmt.close();
-            conn.close();
-            conn = DriverManager.getConnection(url, rootUser, rootPassword);
-            stmt = conn.createStatement();
-
-            //create test user
-            stmt.executeUpdate("create user 'test'@'localhost' identified by '124'");
-            stmt.executeUpdate("grant all privileges on *.* to 'test'@'localhost'");
-
-            //switch to new user
-            stmt.close();
-            conn.close();
-            conn = DriverManager.getConnection(url, username, password);
-            stmt = conn.createStatement();
-
             //create schemas
-            /*
             stmt.executeUpdate("CREATE TABLE `crud_db`.`users` (" +
                     "userID int," +
                     "userName varchar(20)," +
@@ -72,8 +94,6 @@ public class UserDAODB implements IUserDAO {
                     "isForeman boolean," +
                     "isOperator boolean," +
                     "PRIMARY KEY (userID))");
-
-             */
 
         } catch (Exception e){
             e.printStackTrace();
@@ -97,6 +117,7 @@ public class UserDAODB implements IUserDAO {
 
     // queries the database with the given information
     public ResultSet makeDBQuery(String query) throws DALException {
+        checkDb();
         ResultSet resultSet;
 
         try {
@@ -117,6 +138,7 @@ public class UserDAODB implements IUserDAO {
     }
 
     public Statement makeDBManipulation(String manipulation) throws DALException {
+        checkDb();
         Statement statement;
 
         try {
@@ -149,7 +171,7 @@ public class UserDAODB implements IUserDAO {
 
     @Override
     public UserDTO getUser(int userId) throws DALException {
-        UserDTO userDTO;
+        UserDTO userDTO = null;
         try {
             ArrayList<String> tempRolesArray = new ArrayList<>();
             ArrayList<String> tempDTOArray = new ArrayList<>();
@@ -184,7 +206,11 @@ public class UserDAODB implements IUserDAO {
                 }
             }
 
-            userDTO = new UserDTO(Integer.parseInt(tempDTOArray.get(0)), tempDTOArray.get(1), tempDTOArray.get(2), tempRolesArray, tempDTOArray.get(3), tempDTOArray.get(4));
+            try {
+                userDTO = new UserDTO(Integer.parseInt(tempDTOArray.get(0)), tempDTOArray.get(1), tempDTOArray.get(2), tempRolesArray, tempDTOArray.get(3), tempDTOArray.get(4));
+            } catch (Exception e){
+                return new UserDTO(0, "Bruger ikke fundet", "Bruger ikke fundet", new ArrayList<String>(), "Bruger ikke fundet", "Bruger ikke fundet");
+            }
 
             closeDBConnection();
 
@@ -199,8 +225,6 @@ public class UserDAODB implements IUserDAO {
     @Override
     public ArrayList<UserDTO> getUserList() throws DALException {
         ArrayList<UserDTO> multipleDTOArray = new ArrayList<>();
-
-        ArrayList<String> tempRolesArray = new ArrayList<>();
         ArrayList<String> tempDTOArray = new ArrayList<>();
         try {
             ResultSet resultSet = makeDBQuery("SELECT * FROM users");
@@ -213,7 +237,7 @@ public class UserDAODB implements IUserDAO {
             while (resultSet.next()) {
                 //Print all values in a row
                 tempDTOArray.clear();
-                tempRolesArray.clear();
+                ArrayList<String> tempRolesArray = new ArrayList<>();
                 for (int i = 1; i <= columnCount; i++) {
 
                     if (i < 6) {

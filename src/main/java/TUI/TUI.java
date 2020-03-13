@@ -5,6 +5,7 @@ import datatransfer.UserDTO;
 import funktionalitet.Controller;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class TUI implements ITUI {
@@ -158,11 +159,12 @@ public class TUI implements ITUI {
     }
 
     public void showUserList() throws IUserDAO.DALException {
-        if (cont.getUserList().size() == 0) {
+        List<UserDTO> userlist = cont.getUserList();
+        if (userlist.size() == 0) {
             TUI.displayText("Listen er tom.");
         }
-        for (int i = 0; i < cont.getUserList().size(); i++) {
-            displayObject(cont.getUserList().get(i));
+        for (int i = 0; i < userlist.size(); i++) {
+            displayObject(userlist.get(i));
 
         }
     }
