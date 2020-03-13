@@ -1,4 +1,4 @@
-package codegenerator;
+package funktionalitet;
 
 import java.lang.Math.*;
 
