@@ -25,7 +25,7 @@ public class UserDAODB implements IUserDAO {
         url = "jdbc:mysql://" + host + ":" + port + "/" + database + "?characterEncoding=latin1&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     }
 
-    public void createDatabase() throws DALException{
+    public void createDatabase() throws DALException {
         String dbUrl = "jdbc:mysql://localhost";
         String rootUser = "root";
         String rootPassword = "????";
@@ -95,14 +95,13 @@ public class UserDAODB implements IUserDAO {
         }
     }
 
-    // queries the database with the given information
+    // queries the database for the given information, returns the result
+    // some code taken from course 02327
     public ResultSet makeDBQuery(String query) throws DALException {
         ResultSet resultSet;
 
         try {
             Class.forName(driver);
-
-            System.out.println("Querying SQL...");
 
             Connection connection = DriverManager.getConnection(this.url, username, password);
             Statement statement = connection.createStatement();
@@ -116,13 +115,13 @@ public class UserDAODB implements IUserDAO {
         return resultSet;
     }
 
+    // queries the database for the given information
+    // some code taken from course 02327
     public Statement makeDBManipulation(String manipulation) throws DALException {
         Statement statement;
 
         try {
             Class.forName(driver);
-
-            System.out.println("Manipulating SQL...");
 
             Connection connection = DriverManager.getConnection(this.url, username, password);
             statement = connection.createStatement();
@@ -136,6 +135,7 @@ public class UserDAODB implements IUserDAO {
         return statement;
     }
 
+    // closes connection to the database. called after making queries/statements
     public void closeDBConnection() throws DALException {
         Connection connection = null;
         try {
@@ -147,6 +147,8 @@ public class UserDAODB implements IUserDAO {
         }
     }
 
+    // gets the user from a given userId
+    // some code taken from course 02327
     @Override
     public UserDTO getUser(int userId) throws DALException {
         UserDTO userDTO;
@@ -159,31 +161,13 @@ public class UserDAODB implements IUserDAO {
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
             int columnCount = resultSetMetaData.getColumnCount();
 
-            //Print all table rows
+            //gets the only table row
             resultSet.beforeFirst(); //Set pointer for resultSet.next()
             while (resultSet.next()) {
-                //Print all values in a row
-                for (int i = 1; i <= columnCount; i++) {
-
-                    if (i < 6) {
-                        tempDTOArray.add(resultSet.getString(i));
-                    }
-
-                    if (resultSetMetaData.getColumnName(i).equals("isAdmin") && resultSet.getString(i).equals("1")) {
-                        tempRolesArray.add("Admin");
-                    }
-                    if (resultSetMetaData.getColumnName(i).equals("isPharmacist") && resultSet.getString(i).equals("1")) {
-                        tempRolesArray.add("Pharmacist");
-                    }
-                    if (resultSetMetaData.getColumnName(i).equals("isForeman") && resultSet.getString(i).equals("1")) {
-                        tempRolesArray.add("Foreman");
-                    }
-                    if (resultSetMetaData.getColumnName(i).equals("isOperator") && resultSet.getString(i).equals("1")) {
-                        tempRolesArray.add("Operator");
-                    }
-                }
+                buildRolesArray(tempRolesArray, tempDTOArray, resultSet, resultSetMetaData, columnCount);
             }
 
+            // builds a new UserDTO object from the information from the DB
             userDTO = new UserDTO(Integer.parseInt(tempDTOArray.get(0)), tempDTOArray.get(1), tempDTOArray.get(2), tempRolesArray, tempDTOArray.get(3), tempDTOArray.get(4));
 
             closeDBConnection();
@@ -208,32 +192,14 @@ public class UserDAODB implements IUserDAO {
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
             int columnCount = resultSetMetaData.getColumnCount();
 
-            //Print all table rows
+            //gets the table rows
             resultSet.beforeFirst(); //Set pointer for resultSet.next()
             while (resultSet.next()) {
-                //Print all values in a row
                 tempDTOArray.clear();
                 tempRolesArray.clear();
-                for (int i = 1; i <= columnCount; i++) {
+                buildRolesArray(tempRolesArray, tempDTOArray, resultSet, resultSetMetaData, columnCount);
 
-                    if (i < 6) {
-                        tempDTOArray.add(resultSet.getString(i));
-                    }
-
-                    if (resultSetMetaData.getColumnName(i).equals("isAdmin") && resultSet.getString(i).equals("1")) {
-                        tempRolesArray.add("Admin");
-                    }
-                    if (resultSetMetaData.getColumnName(i).equals("isPharmacist") && resultSet.getString(i).equals("1")) {
-                        tempRolesArray.add("Pharmacist");
-                    }
-                    if (resultSetMetaData.getColumnName(i).equals("isForeman") && resultSet.getString(i).equals("1")) {
-                        tempRolesArray.add("Foreman");
-                    }
-                    if (resultSetMetaData.getColumnName(i).equals("isOperator") && resultSet.getString(i).equals("1")) {
-                        tempRolesArray.add("Operator");
-                    }
-                }
-
+                //adds a UserDTO object to an array of such
                 multipleDTOArray.add(new UserDTO(Integer.parseInt(tempDTOArray.get(0)), tempDTOArray.get(1), tempDTOArray.get(2), tempRolesArray, tempDTOArray.get(3), tempDTOArray.get(4)));
             }
 
@@ -242,10 +208,34 @@ public class UserDAODB implements IUserDAO {
             throw new DALException("Something went wrong with getUserList()");
         }
 
-
+        // returns all the users in the list
         return multipleDTOArray;
     }
 
+    // method used by getUser() and getUserList() to convert roles in SQL to an arraylist used by UserDTO
+    private void buildRolesArray(ArrayList<String> tempRolesArray, ArrayList<String> tempDTOArray, ResultSet resultSet, ResultSetMetaData resultSetMetaData, int columnCount) throws SQLException {
+        for (int i = 1; i <= columnCount; i++) {
+
+            if (i < 6) {
+                tempDTOArray.add(resultSet.getString(i));
+            }
+
+            if (resultSetMetaData.getColumnName(i).equals("isAdmin") && resultSet.getString(i).equals("1")) {
+                tempRolesArray.add("Admin");
+            }
+            if (resultSetMetaData.getColumnName(i).equals("isPharmacist") && resultSet.getString(i).equals("1")) {
+                tempRolesArray.add("Pharmacist");
+            }
+            if (resultSetMetaData.getColumnName(i).equals("isForeman") && resultSet.getString(i).equals("1")) {
+                tempRolesArray.add("Foreman");
+            }
+            if (resultSetMetaData.getColumnName(i).equals("isOperator") && resultSet.getString(i).equals("1")) {
+                tempRolesArray.add("Operator");
+            }
+        }
+    }
+
+    // creates a new user in the database
     @Override
     public void createUser(UserDTO user) throws DALException {
         int isAdmin = 0;
@@ -253,6 +243,7 @@ public class UserDAODB implements IUserDAO {
         int isForeman = 0;
         int isOperator = 0;
 
+        // for loop that converts the roles ArrayList to roles to be inserted into the DB
         for (int i = 1; i <= user.getRoles().size(); i++) {
 
             if (user.getRoles().contains("Admin")) {
@@ -278,6 +269,7 @@ public class UserDAODB implements IUserDAO {
     }
 
 
+    // deletes the user from the database
     @Override
     public void deleteUser(int userId) throws DALException {
         try {
@@ -288,6 +280,7 @@ public class UserDAODB implements IUserDAO {
         }
     }
 
+    //updates the user by deleting the user with the ID, and inserts a new one with given attributes
     @Override
     public void updateUser(UserDTO user) throws DALException {
         deleteUser(user.getUserId());
