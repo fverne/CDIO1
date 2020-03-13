@@ -1,7 +1,6 @@
 package funktionalitet;
 
 import TUI.TUI;
-import codegenerator.Codegenerator;
 import data.IUserDAO;
 import data.UserDAODB;
 import datatransfer.UserDTO;
